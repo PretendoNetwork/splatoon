@@ -1,6 +1,0 @@
-[submodule "splatoon-secure"]
-	path = splatoon-secure
-	url = https://github.com/PretendoNetwork/splatoon-secure
-[submodule "splatoon-authentication"]
-	path = splatoon-authentication
-	url = https://github.com/PretendoNetwork/splatoon-authentication
