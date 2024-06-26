@@ -1,10 +1,10 @@
 package nex
 
 import (
+	"github.com/PretendoNetwork/nex-go/v2"
 	"github.com/PretendoNetwork/nex-go/v2/types"
 	commonnattraversal "github.com/PretendoNetwork/nex-protocols-common-go/v2/nat-traversal"
 	commonsecure "github.com/PretendoNetwork/nex-protocols-common-go/v2/secure-connection"
-	datastore "github.com/PretendoNetwork/nex-protocols-go/v2/datastore/super-smash-bros-4"
 	nattraversal "github.com/PretendoNetwork/nex-protocols-go/v2/nat-traversal"
 	secure "github.com/PretendoNetwork/nex-protocols-go/v2/secure-connection"
 	"github.com/PretendoNetwork/splatoon/globals"
@@ -14,12 +14,42 @@ import (
 	commonmatchmakeextension "github.com/PretendoNetwork/nex-protocols-common-go/v2/matchmake-extension"
 	matchmaking "github.com/PretendoNetwork/nex-protocols-go/v2/match-making"
 	matchmakingext "github.com/PretendoNetwork/nex-protocols-go/v2/match-making-ext"
+	matchmakingtypes "github.com/PretendoNetwork/nex-protocols-go/v2/match-making/types"
 	matchmakeextension "github.com/PretendoNetwork/nex-protocols-go/v2/matchmake-extension"
-	matchmakereferee "github.com/PretendoNetwork/nex-protocols-go/v2/matchmake-referee"
 )
 
 func CreateReportDBRecord(_ *types.PID, _ *types.PrimitiveU32, _ *types.QBuffer) error {
 	return nil
+}
+
+func stubGetPlayingSession(err error, packet nex.PacketInterface, callID uint32, lstPID *types.List[*types.PID]) (*nex.RMCMessage, *nex.Error) {
+	if err != nil {
+		globals.Logger.Error(err.Error())
+		return nil, nex.NewError(nex.ResultCodes.Core.InvalidArgument, "change_error")
+	}
+
+	connection := packet.Sender().(*nex.PRUDPConnection)
+	endpoint := connection.Endpoint().(*nex.PRUDPEndPoint)
+
+	lstSimplePlayingSession := types.NewList[*matchmakingtypes.SimplePlayingSession]()
+
+	// * There are no sessions, I tell you!
+	//for _, simplePlayingSession := range simplePlayingSessions {
+	//	lstSimplePlayingSession.Append(simplePlayingSession)
+	//}
+
+	rmcResponseStream := nex.NewByteStreamOut(endpoint.LibraryVersions(), endpoint.ByteStreamSettings())
+
+	lstSimplePlayingSession.WriteTo(rmcResponseStream)
+
+	rmcResponseBody := rmcResponseStream.Bytes()
+
+	rmcResponse := nex.NewRMCSuccess(endpoint, rmcResponseBody)
+	rmcResponse.ProtocolID = matchmakeextension.ProtocolID
+	rmcResponse.MethodID = matchmakeextension.MethodGetSimplePlayingSession
+	rmcResponse.CallID = callID
+
+	return rmcResponse, nil
 }
 
 func registerCommonSecureServerProtocols() {
@@ -44,11 +74,5 @@ func registerCommonSecureServerProtocols() {
 	matchmakeExtensionProtocol := matchmakeextension.NewProtocol()
 	globals.SecureEndpoint.RegisterServiceProtocol(matchmakeExtensionProtocol)
 	commonmatchmakeextension.NewCommonProtocol(matchmakeExtensionProtocol)
-
-	matchmakeRefereeProtocol := matchmakereferee.NewProtocol()
-	globals.SecureEndpoint.RegisterServiceProtocol(matchmakeRefereeProtocol)
-
-	datastoreProtocol := datastore.NewProtocol(globals.SecureEndpoint)
-	globals.SecureEndpoint.RegisterServiceProtocol(datastoreProtocol)
-	//datastoreProtocol.GetApplicationConfig =
+	matchmakeExtensionProtocol.SetHandlerGetPlayingSession(stubGetPlayingSession)
 }
