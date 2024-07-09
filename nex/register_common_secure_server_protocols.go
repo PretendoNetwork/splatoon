@@ -8,6 +8,8 @@ import (
 	nattraversal "github.com/PretendoNetwork/nex-protocols-go/v2/nat-traversal"
 	secure "github.com/PretendoNetwork/nex-protocols-go/v2/secure-connection"
 	"github.com/PretendoNetwork/splatoon/globals"
+	"strconv"
+	"strings"
 
 	commonmatchmaking "github.com/PretendoNetwork/nex-protocols-common-go/v2/match-making"
 	commonmatchmakingext "github.com/PretendoNetwork/nex-protocols-common-go/v2/match-making-ext"
@@ -52,6 +54,58 @@ func stubGetPlayingSession(err error, packet nex.PacketInterface, callID uint32,
 	return rmcResponse, nil
 }
 
+// from nex-protocols-common-go/matchmaking_utils.go
+func compareSearchCriteria[T ~uint16 | ~uint32](original T, search string) bool {
+	if search == "" { // * Accept any value
+		return true
+	}
+
+	before, after, found := strings.Cut(search, ",")
+	if found {
+		min, err := strconv.ParseUint(before, 10, 64)
+		if err != nil {
+			return false
+		}
+
+		max, err := strconv.ParseUint(after, 10, 64)
+		if err != nil {
+			return false
+		}
+
+		return min <= uint64(original) && max >= uint64(original)
+	} else {
+		searchNum, err := strconv.ParseUint(before, 10, 64)
+		if err != nil {
+			return false
+		}
+
+		return searchNum == uint64(original)
+	}
+}
+
+func gameSpecificMatchmakeSessionSearchCriteriaChecksHandler(searchCriteria *matchmakingtypes.MatchmakeSessionSearchCriteria, matchmakeSession *matchmakingtypes.MatchmakeSession) bool {
+	original := matchmakeSession.Attributes.Slice()
+	search := searchCriteria.Attribs.Slice()
+	if len(original) != len(search) {
+		return false
+	}
+
+	for index, originalAttribute := range original {
+		// ignore dummy criterias for matchmaking
+		// everyone ends up in different rooms if you don't skip these
+		if index == 1 || index == 4 {
+			continue
+		}
+		searchAttribute := search[index]
+
+		if !compareSearchCriteria(originalAttribute.Value, searchAttribute.Value) {
+			return false
+		}
+	}
+
+	return true
+}
+
 func registerCommonSecureServerProtocols() {
 	secureProtocol := secure.NewProtocol()
 	globals.SecureEndpoint.RegisterServiceProtocol(secureProtocol)
@@ -73,6 +127,7 @@ func registerCommonSecureServerProtocols() {
 
 	matchmakeExtensionProtocol := matchmakeextension.NewProtocol()
 	globals.SecureEndpoint.RegisterServiceProtocol(matchmakeExtensionProtocol)
-	commonmatchmakeextension.NewCommonProtocol(matchmakeExtensionProtocol)
+	commonMatchmakeExtensionProtocol := commonmatchmakeextension.NewCommonProtocol(matchmakeExtensionProtocol)
 	matchmakeExtensionProtocol.SetHandlerGetPlayingSession(stubGetPlayingSession)
+	commonMatchmakeExtensionProtocol.GameSpecificMatchmakeSessionSearchCriteriaChecks = gameSpecificMatchmakeSessionSearchCriteriaChecksHandler
 }
