@@ -24,7 +24,7 @@ func CreateReportDBRecord(_ *types.PID, _ *types.PrimitiveU32, _ *types.QBuffer)
 	return nil
 }
 
-func stubGetPlayingSession(err error, packet nex.PacketInterface, callID uint32, lstPID *types.List[*types.PID]) (*nex.RMCMessage, *nex.Error) {
+func stubGetPlayingSession(err error, packet nex.PacketInterface, callID uint32, _ *types.List[*types.PID]) (*nex.RMCMessage, *nex.Error) {
 	if err != nil {
 		globals.Logger.Error(err.Error())
 		return nil, nex.NewError(nex.ResultCodes.Core.InvalidArgument, "change_error")
@@ -33,16 +33,16 @@ func stubGetPlayingSession(err error, packet nex.PacketInterface, callID uint32,
 	connection := packet.Sender().(*nex.PRUDPConnection)
 	endpoint := connection.Endpoint().(*nex.PRUDPEndPoint)
 
-	lstSimplePlayingSession := types.NewList[*matchmakingtypes.SimplePlayingSession]()
+	lstPlayingSession := types.NewList[*matchmakingtypes.PlayingSession]()
 
 	// * There are no sessions, I tell you!
-	//for _, simplePlayingSession := range simplePlayingSessions {
-	//	lstSimplePlayingSession.Append(simplePlayingSession)
+	//for _, playingSession := range playingSessions {
+	//	lstPlayingSession.Append(playingSession)
 	//}
 
 	rmcResponseStream := nex.NewByteStreamOut(endpoint.LibraryVersions(), endpoint.ByteStreamSettings())
 
-	lstSimplePlayingSession.WriteTo(rmcResponseStream)
+	lstPlayingSession.WriteTo(rmcResponseStream)
 
 	rmcResponseBody := rmcResponseStream.Bytes()
 
