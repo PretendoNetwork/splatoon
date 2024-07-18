@@ -3,6 +3,7 @@ package nex
 import (
 	"github.com/PretendoNetwork/nex-go/v2"
 	"github.com/PretendoNetwork/nex-go/v2/types"
+	common_globals "github.com/PretendoNetwork/nex-protocols-common-go/v2/globals"
 	commonnattraversal "github.com/PretendoNetwork/nex-protocols-common-go/v2/nat-traversal"
 	commonsecure "github.com/PretendoNetwork/nex-protocols-common-go/v2/secure-connection"
 	nattraversal "github.com/PretendoNetwork/nex-protocols-go/v2/nat-traversal"
@@ -106,6 +107,16 @@ func gameSpecificMatchmakeSessionSearchCriteriaChecksHandler(searchCriteria *mat
 	return true
 }
 
+func onAfterAutoMatchmakeWithParamPostpone(_ nex.PacketInterface, _ *matchmakingtypes.AutoMatchmakeParam) {
+	// * This is ugly but I can't work out a better way to do this
+	// * Set Splatfest rooms to open participation
+	for _, session := range common_globals.Sessions {
+		if session.GameMatchmakeSession != nil && session.GameMatchmakeSession.GameMode.Value == 12 {
+			session.GameMatchmakeSession.OpenParticipation.Value = true
+		}
+	}
+}
+
 func registerCommonSecureServerProtocols() {
 	secureProtocol := secure.NewProtocol()
 	globals.SecureEndpoint.RegisterServiceProtocol(secureProtocol)
@@ -130,4 +141,5 @@ func registerCommonSecureServerProtocols() {
 	commonMatchmakeExtensionProtocol := commonmatchmakeextension.NewCommonProtocol(matchmakeExtensionProtocol)
 	matchmakeExtensionProtocol.SetHandlerGetPlayingSession(stubGetPlayingSession)
 	commonMatchmakeExtensionProtocol.GameSpecificMatchmakeSessionSearchCriteriaChecks = gameSpecificMatchmakeSessionSearchCriteriaChecksHandler
+	commonMatchmakeExtensionProtocol.OnAfterAutoMatchmakeWithParamPostpone = onAfterAutoMatchmakeWithParamPostpone
 }
