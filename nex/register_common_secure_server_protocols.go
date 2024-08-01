@@ -15,10 +15,12 @@ import (
 	commonmatchmaking "github.com/PretendoNetwork/nex-protocols-common-go/v2/match-making"
 	commonmatchmakingext "github.com/PretendoNetwork/nex-protocols-common-go/v2/match-making-ext"
 	commonmatchmakeextension "github.com/PretendoNetwork/nex-protocols-common-go/v2/matchmake-extension"
+	commonranking "github.com/PretendoNetwork/nex-protocols-common-go/v2/ranking"
 	matchmaking "github.com/PretendoNetwork/nex-protocols-go/v2/match-making"
 	matchmakingext "github.com/PretendoNetwork/nex-protocols-go/v2/match-making-ext"
 	matchmakingtypes "github.com/PretendoNetwork/nex-protocols-go/v2/match-making/types"
 	matchmakeextension "github.com/PretendoNetwork/nex-protocols-go/v2/matchmake-extension"
+	ranking "github.com/PretendoNetwork/nex-protocols-go/v2/ranking/splatoon"
 )
 
 func CreateReportDBRecord(_ *types.PID, _ *types.PrimitiveU32, _ *types.QBuffer) error {
@@ -142,4 +144,8 @@ func registerCommonSecureServerProtocols() {
 	matchmakeExtensionProtocol.SetHandlerGetPlayingSession(stubGetPlayingSession)
 	commonMatchmakeExtensionProtocol.GameSpecificMatchmakeSessionSearchCriteriaChecks = gameSpecificMatchmakeSessionSearchCriteriaChecksHandler
 	commonMatchmakeExtensionProtocol.OnAfterAutoMatchmakeWithParamPostpone = onAfterAutoMatchmakeWithParamPostpone
+
+	rankingProtocol := ranking.NewProtocol(globals.SecureEndpoint)
+	globals.SecureEndpoint.RegisterServiceProtocol(rankingProtocol)
+	commonranking.NewCommonProtocol(rankingProtocol)
 }
