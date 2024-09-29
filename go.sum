@@ -2,12 +2,10 @@ github.com/PretendoNetwork/grpc-go v1.0.2 h1:9TvKmX7dCOANyoHEra1MMYqS1N/RGav66TR
 github.com/PretendoNetwork/grpc-go v1.0.2/go.mod h1:XZjEsij9lL7HJBNkH6JPbBIkUSq/1rjflvjGdv+DAj0=
 github.com/PretendoNetwork/nex-go/v2 v2.0.2 h1:mPp27Ero3Rr28nekuKg4f0tdp28NzmCJXgupt2paT18=
 github.com/PretendoNetwork/nex-go/v2 v2.0.2/go.mod h1:O5v200Ro8bdrmqSAmzV0cqQsG7cdmwLHAet5X7Jxz20=
-github.com/PretendoNetwork/nex-protocols-common-go/v2 v2.0.5 h1:17b7vA8wjWLW9JdJTHeOoX2g2e4S/EwA32m9AuPEA80=
-github.com/PretendoNetwork/nex-protocols-common-go/v2 v2.0.5/go.mod h1:0wDEYxDYbUOjsKjsTUjU0/f3pL1MT54h+tGn4UyeB+A=
-github.com/PretendoNetwork/nex-protocols-go/v2 v2.0.3 h1:80CG7f9w/34MN1vAZ1XP3ec4LJ4mqKlkests+HQzrvc=
-github.com/PretendoNetwork/nex-protocols-go/v2 v2.0.3/go.mod h1:2UN8khoMDNaeJ4GcIG7ez7MqqmbLfLzbVS6hSa+kGnk=
 github.com/PretendoNetwork/plogger-go v1.0.4 h1:PF7xHw9eDRHH+RsAP9tmAE7fG0N0p6H4iPwHKnsoXwc=
 github.com/PretendoNetwork/plogger-go v1.0.4/go.mod h1:7kD6M4vPq1JL4LTuPg6kuB1OvUBOwQOtAvTaUwMbwvU=
+github.com/PretendoNetwork/pq-extended v1.0.0 h1:GHZ0hLvCvmYKQPTV9I9XtTx8J1iB5Z9CEnfW2tUpsYg=
+github.com/PretendoNetwork/pq-extended v1.0.0/go.mod h1:bq6Ai+3lG4/M0iamUBt2Uzi5vL/nYy1a1Ar2ow9NDF0=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/dolthub/maphash v0.1.0 h1:bsQ7JsF4FkkWyrP3oCnFJgrCUAFbFf3kOl4L/QxPDyQ=
@@ -24,6 +22,8 @@ github.com/jwalton/go-supportscolor v1.2.0 h1:g6Ha4u7Vm3LIsQ5wmeBpS4gazu0UP1DRDE
 github.com/jwalton/go-supportscolor v1.2.0/go.mod h1:hFVUAZV2cWg+WFFC4v8pT2X/S2qUUBYMioBD9AINXGs=
 github.com/klauspost/compress v1.17.9 h1:6KIumPrER1LHsvBVuDa0r5xaG0Es51mhhB9BQB2qeMA=
 github.com/klauspost/compress v1.17.9/go.mod h1:Di0epgTjJY877eYKx5yC51cX2A2Vl2ibi7bDH9ttBbw=
+github.com/lib/pq v1.10.9 h1:YXG7RB+JIjhP29X+OtkiDnYaXQwpS4JEWq7dtCCRUEw=
+github.com/lib/pq v1.10.9/go.mod h1:AlVN5x4E4T544tWzH6hKfbfQvm3HdbOxrmggDNAPY9o=
 github.com/lxzan/gws v1.8.5 h1:6x+wW3EHtoGFNeCtZP1OVZ1IHrpZZzDaEjQGg1lUJqU=
 github.com/lxzan/gws v1.8.5/go.mod h1:FcGeRMB7HwGuTvMLR24ku0Zx0p6RXqeKASeMc4VYgi4=
 github.com/mattn/go-colorable v0.1.13 h1:fFA4WZxdEF4tXPZVKMLwD8oUnCTTo08duU7wxecdEvA=

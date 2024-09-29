@@ -1,8 +1,6 @@
 module github.com/PretendoNetwork/splatoon
 
-go 1.21
-
-toolchain go1.21.9
+go 1.22.1
 
 require (
 	github.com/PretendoNetwork/grpc-go v1.0.2
@@ -15,11 +13,13 @@ require (
 )
 
 require (
+	github.com/PretendoNetwork/pq-extended v1.0.0 // indirect
 	github.com/dolthub/maphash v0.1.0 // indirect
 	github.com/fatih/color v1.17.0 // indirect
 	github.com/golang/protobuf v1.5.4 // indirect
 	github.com/jwalton/go-supportscolor v1.2.0 // indirect
 	github.com/klauspost/compress v1.17.9 // indirect
+	github.com/lib/pq v1.10.9 // indirect
 	github.com/lxzan/gws v1.8.5 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
@@ -34,3 +34,7 @@ require (
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240617180043-68d350f18fd4 // indirect
 	google.golang.org/protobuf v1.34.2 // indirect
 )
+
+replace github.com/PretendoNetwork/nex-protocols-common-go/v2 => /root/nex-protocols-common-go
+
+replace github.com/PretendoNetwork/nex-protocols-go/v2 => /root/nex-protocols-go

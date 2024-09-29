@@ -1,6 +1,7 @@
 package main
 
 import (
+        "database/sql"
 	"fmt"
 	"os"
 	"strconv"
@@ -104,4 +105,9 @@ func init() {
 	globals.GRPCAccountCommonMetadata = metadata.Pairs(
 		"X-API-Key", accountGRPCAPIKey,
 	)
+	globals.Postgres, err = sql.Open("postgres", os.Getenv("PN_SPLATOON_POSTGRES_URI"))
+	if err != nil {
+		globals.Logger.Critical(err.Error())
+	}
+	globals.Logger.Success("Connected to Postgres!")
 }
