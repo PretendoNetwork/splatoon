@@ -86,7 +86,7 @@ func compareSearchCriteria[T ~uint16 | ~uint32](original T, search string) bool 
 	}
 }
 
-func cleanupMatchmakeSessionSearchCriteriasHandler(searchCriterias *types.List[*match_making_types.MatchmakeSessionSearchCriteria]) {
+func cleanupMatchmakeSessionSearchCriteriasHandler(searchCriterias *types.List[*matchmakingtypes.MatchmakeSessionSearchCriteria]) {
     search := searchCriterias.Slice();
     
     for i, searchCriteriasElem := range search {
