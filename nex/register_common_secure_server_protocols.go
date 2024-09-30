@@ -89,7 +89,7 @@ func compareSearchCriteria[T ~uint16 | ~uint32](original T, search string) bool 
 func cleanupMatchmakeSessionSearchCriteriasHandler(searchCriterias *types.List[*matchmakingtypes.MatchmakeSessionSearchCriteria]) {
     search := searchCriterias.Slice();
     
-    for searchCriteriasElem := range search {
+    for _, searchCriteriasElem := range search {
         searchCriteriasElem.Attribs.DeleteIndex(1);
         searchCriteriasElem.Attribs.DeleteIndex(4);
     }
