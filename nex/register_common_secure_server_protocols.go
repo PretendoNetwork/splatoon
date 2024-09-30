@@ -92,7 +92,7 @@ func cleanupSearchMatchmakeSession(matchmakeSession *matchmakingtypes.MatchmakeS
     matchmakeSession.Attributes.DeleteIndex(4);
 }
 
-func cleanupMatchmakeSessionSearchCriteriasHandler(searchCriterias *types.List[*match_making_types.MatchmakeSessionSearchCriteria]) {
+func cleanupMatchmakeSessionSearchCriteriasHandler(searchCriterias *types.List[*matchmakingtypes.MatchmakeSessionSearchCriteria]) {
     fmt.Printf("%+v\n", searchCriterias)
 }
 
