@@ -94,6 +94,7 @@ func cleanupSearchMatchmakeSession(matchmakeSession *matchmakingtypes.MatchmakeS
 
 func cleanupMatchmakeSessionSearchCriteriasHandler(searchCriterias *types.List[*matchmakingtypes.MatchmakeSessionSearchCriteria]) {
     fmt.Printf("%+v\n", searchCriterias)
+	fmt.Printf("AAAAAAA")
 }
 
 
@@ -158,6 +159,7 @@ func registerCommonSecureServerProtocols() {
 	commonMatchmakeExtensionProtocol := commonmatchmakeextension.NewCommonProtocol(matchmakeExtensionProtocol)
 	matchmakeExtensionProtocol.SetHandlerGetPlayingSession(stubGetPlayingSession)
 	commonMatchmakeExtensionProtocol.CleanupMatchmakeSessionSearchCriterias = cleanupMatchmakeSessionSearchCriteriasHandler
+	fmt.Printf("Test")
 	commonMatchmakeExtensionProtocol.OnAfterAutoMatchmakeWithParamPostpone = onAfterAutoMatchmakeWithParamPostpone
 	commonMatchmakeExtensionProtocol.SetManager(globals.MatchmakingManager)
 
