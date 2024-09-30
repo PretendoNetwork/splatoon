@@ -11,7 +11,6 @@ import (
 	"github.com/PretendoNetwork/splatoon/globals"
 	"strconv"
 	"strings"
-	"fmt"
 
 	commonmatchmaking "github.com/PretendoNetwork/nex-protocols-common-go/v2/match-making"
 	commonmatchmakingext "github.com/PretendoNetwork/nex-protocols-common-go/v2/match-making-ext"
@@ -38,11 +37,6 @@ func stubGetPlayingSession(err error, packet nex.PacketInterface, callID uint32,
 	endpoint := connection.Endpoint().(*nex.PRUDPEndPoint)
 
 	lstPlayingSession := types.NewList[*match_making_types.PlayingSession]()
-
-	// * There are no sessions, I tell you!
-	//for _, playingSession := range playingSessions {
-	//	lstPlayingSession.Append(playingSession)
-	//}
 
 	rmcResponseStream := nex.NewByteStreamOut(endpoint.LibraryVersions(), endpoint.ByteStreamSettings())
 
@@ -93,30 +87,6 @@ func cleanupMatchmakeSessionSearchCriteriasHandler(searchCriterias *types.List[*
 	}
   }
 
-
-func gameSpecificMatchmakeSessionSearchCriteriaChecksHandler(searchCriteria *match_making_types.MatchmakeSessionSearchCriteria, matchmakeSession *match_making_types.MatchmakeSession) bool {
-	original := matchmakeSession.Attributes.Slice()
-	search := searchCriteria.Attribs.Slice()
-	if len(original) != len(search) {
-		return false
-	}
-
-	for index, originalAttribute := range original {
-		// ignore dummy criterias for matchmaking
-		// everyone ends up in different rooms if you don't skip these
-		if index == 1 || index == 4 {
-			continue
-		}
-		searchAttribute := search[index]
-
-		if !compareSearchCriteria(originalAttribute.Value, searchAttribute.Value) {
-			return false
-		}
-	}
-
-	return true
-}
-
 func onAfterAutoMatchmakeWithParamPostpone(_ nex.PacketInterface, _ *match_making_types.AutoMatchmakeParam) {
 	// * This is ugly but I can't work out a better way to do this
 	// * Set Splatfest rooms to open participation
@@ -140,13 +110,11 @@ func registerCommonSecureServerProtocols() {
 
 	matchMakingProtocol := matchmaking.NewProtocol()
 	globals.SecureEndpoint.RegisterServiceProtocol(matchMakingProtocol)
-	//commonmatchmaking.NewCommonProtocol(matchMakingProtocol)
 	commonMatchMakingProtocol := commonmatchmaking.NewCommonProtocol(matchMakingProtocol)
 	commonMatchMakingProtocol.SetManager(globals.MatchmakingManager)
 
 	matchMakingExtProtocol := matchmakingext.NewProtocol()
 	globals.SecureEndpoint.RegisterServiceProtocol(matchMakingExtProtocol)
-//	commonmatchmakingext.NewCommonProtocol(matchMakingExtProtocol)
 	commonMatchMakingExtProtocol := commonmatchmakingext.NewCommonProtocol(matchMakingExtProtocol)
 	commonMatchMakingExtProtocol.SetManager(globals.MatchmakingManager)
 
@@ -155,7 +123,6 @@ func registerCommonSecureServerProtocols() {
 	commonMatchmakeExtensionProtocol := commonmatchmakeextension.NewCommonProtocol(matchmakeExtensionProtocol)
 	matchmakeExtensionProtocol.SetHandlerGetPlayingSession(stubGetPlayingSession)
 	commonMatchmakeExtensionProtocol.CleanupMatchmakeSessionSearchCriterias = cleanupMatchmakeSessionSearchCriteriasHandler
-	fmt.Printf("Test")
 	commonMatchmakeExtensionProtocol.OnAfterAutoMatchmakeWithParamPostpone = onAfterAutoMatchmakeWithParamPostpone
 	commonMatchmakeExtensionProtocol.SetManager(globals.MatchmakingManager)
 
