@@ -87,15 +87,12 @@ func compareSearchCriteria[T ~uint16 | ~uint32](original T, search string) bool 
 	}
 }
 
-func cleanupSearchMatchmakeSession(matchmakeSession *matchmakingtypes.MatchmakeSession) {
-    matchmakeSession.Attributes.DeleteIndex(1);
-    matchmakeSession.Attributes.DeleteIndex(4);
-}
-
-func cleanupMatchmakeSessionSearchCriteriasHandler(searchCriterias *types.List[*matchmakingtypes.MatchmakeSessionSearchCriteria]) {
-    fmt.Printf("%+v\n", searchCriterias)
-	fmt.Printf("AAAAAAA")
-}
+func cleanupMatchmakeSessionSearchCriteriasHandler(searchCriterias *types.List[*match_making_types.MatchmakeSessionSearchCriteria]) {
+	for _, searchCriteria := range searchCriterias.Slice() {
+	  searchCriteria.Attribs.SetIndex(1, "")
+	  searchCriteria.Attribs.SetIndex(4, "")
+	}
+  }
 
 
 func gameSpecificMatchmakeSessionSearchCriteriaChecksHandler(searchCriteria *matchmakingtypes.MatchmakeSessionSearchCriteria, matchmakeSession *matchmakingtypes.MatchmakeSession) bool {
