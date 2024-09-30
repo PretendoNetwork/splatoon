@@ -86,13 +86,9 @@ func compareSearchCriteria[T ~uint16 | ~uint32](original T, search string) bool 
 	}
 }
 
-func cleanupMatchmakeSessionSearchCriteriasHandler(searchCriterias *types.List[*matchmakingtypes.MatchmakeSessionSearchCriteria]) {
-    search := searchCriterias.Slice();
-    
-    for _, searchCriteriasElem := range search {
-        searchCriteriasElem.Attribs.DeleteIndex(1);
-        searchCriteriasElem.Attribs.DeleteIndex(4);
-    }
+func cleanupSearchMatchmakeSession(matchmakeSession *match_making_types.MatchmakeSession) {
+    matchmakeSession.Attributes.DeleteIndex(1);
+    matchmakeSession.Attributes.DeleteIndex(4);
 }
 
 func gameSpecificMatchmakeSessionSearchCriteriaChecksHandler(searchCriteria *matchmakingtypes.MatchmakeSessionSearchCriteria, matchmakeSession *matchmakingtypes.MatchmakeSession) bool {
@@ -155,7 +151,7 @@ func registerCommonSecureServerProtocols() {
 	globals.SecureEndpoint.RegisterServiceProtocol(matchmakeExtensionProtocol)
 	commonMatchmakeExtensionProtocol := commonmatchmakeextension.NewCommonProtocol(matchmakeExtensionProtocol)
 	matchmakeExtensionProtocol.SetHandlerGetPlayingSession(stubGetPlayingSession)
-	commonMatchmakeExtensionProtocol.CleanupMatchmakeSessionSearchCriterias = cleanupMatchmakeSessionSearchCriteriasHandler
+	commonMatchmakeExtensionProtocol.CleanupSearchMatchmakeSession = cleanupSearchMatchmakeSession
 	commonMatchmakeExtensionProtocol.OnAfterAutoMatchmakeWithParamPostpone = onAfterAutoMatchmakeWithParamPostpone
 	commonMatchmakeExtensionProtocol.SetManager(globals.MatchmakingManager)
 
