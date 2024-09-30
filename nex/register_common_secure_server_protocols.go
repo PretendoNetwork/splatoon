@@ -11,6 +11,7 @@ import (
 	"github.com/PretendoNetwork/splatoon/globals"
 	"strconv"
 	"strings"
+	"fmt"
 
 	commonmatchmaking "github.com/PretendoNetwork/nex-protocols-common-go/v2/match-making"
 	commonmatchmakingext "github.com/PretendoNetwork/nex-protocols-common-go/v2/match-making-ext"
@@ -91,6 +92,11 @@ func cleanupSearchMatchmakeSession(matchmakeSession *matchmakingtypes.MatchmakeS
     matchmakeSession.Attributes.DeleteIndex(4);
 }
 
+func cleanupMatchmakeSessionSearchCriteriasHandler(searchCriterias *types.List[*match_making_types.MatchmakeSessionSearchCriteria]) {
+    fmt.Printf("%+v\n", searchCriterias)
+}
+
+
 func gameSpecificMatchmakeSessionSearchCriteriaChecksHandler(searchCriteria *matchmakingtypes.MatchmakeSessionSearchCriteria, matchmakeSession *matchmakingtypes.MatchmakeSession) bool {
 	original := matchmakeSession.Attributes.Slice()
 	search := searchCriteria.Attribs.Slice()
@@ -151,8 +157,7 @@ func registerCommonSecureServerProtocols() {
 	globals.SecureEndpoint.RegisterServiceProtocol(matchmakeExtensionProtocol)
 	commonMatchmakeExtensionProtocol := commonmatchmakeextension.NewCommonProtocol(matchmakeExtensionProtocol)
 	matchmakeExtensionProtocol.SetHandlerGetPlayingSession(stubGetPlayingSession)
-	commonMatchmakeExtensionProtocol.CleanupSearchMatchmakeSession = cleanupSearchMatchmakeSession
-	commonMatchmakeExtensionProtocol.CleanupSearchMatchmakeSession = cleanupSearchMatchmakeSession
+	commonMatchmakeExtensionProtocol.CleanupSearchMatchmakeSessionSearchCriterias = cleanupMatchmakeSessionSearchCriteriasHandler
 	commonMatchmakeExtensionProtocol.OnAfterAutoMatchmakeWithParamPostpone = onAfterAutoMatchmakeWithParamPostpone
 	commonMatchmakeExtensionProtocol.SetManager(globals.MatchmakingManager)
 
