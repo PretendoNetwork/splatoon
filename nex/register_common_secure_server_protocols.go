@@ -88,13 +88,13 @@ func cleanupMatchmakeSessionSearchCriteriasHandler(searchCriterias *types.List[*
   }
 
 func onAfterAutoMatchmakeWithParamPostpone(_ nex.PacketInterface, _ *match_making_types.AutoMatchmakeParam) {
-	// * This is ugly but I can't work out a better way to do this
-	// * Set Splatfest rooms to open participation
-	for _, session := range common_globals.Sessions {
-		if session.GameMatchmakeSession != nil && session.GameMatchmakeSession.GameMode.Value == 12 {
-			session.GameMatchmakeSession.OpenParticipation.Value = true
-		}
-	}
+    globals.MatchmakingManager.Lock()
+    err := globals.MatchmakingManager.Database.Exec(`UPDATE matchmaking.matchmake_sessions SET open_participation=true WHERE game_mode=12`)
+    if err != nil {
+      globals.Logger.Error(err.Error())
+    }
+
+    globals.MatchmakingManager.Unlock()
 }
 
 func registerCommonSecureServerProtocols() {
