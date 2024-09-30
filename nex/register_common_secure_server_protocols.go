@@ -3,7 +3,7 @@ package nex
 import (
 	"github.com/PretendoNetwork/nex-go/v2"
 	"github.com/PretendoNetwork/nex-go/v2/types"
-//	commonglobals "github.com/PretendoNetwork/nex-protocols-common-go/v2/globals"
+//	common_globals "github.com/PretendoNetwork/nex-protocols-common-go/v2/globals"
 	commonnattraversal "github.com/PretendoNetwork/nex-protocols-common-go/v2/nat-traversal"
 	commonsecure "github.com/PretendoNetwork/nex-protocols-common-go/v2/secure-connection"
 	nattraversal "github.com/PretendoNetwork/nex-protocols-go/v2/nat-traversal"
@@ -116,6 +116,11 @@ func gameSpecificMatchmakeSessionSearchCriteriaChecksHandler(searchCriteria *mat
 	}
 
 	return true
+}
+
+func cleanupMatchmakeSessionSearchCriteriasHandler(searchCriterias *types.List[*matchmakingtypes.MatchmakeSessionSearchCriteria]) {
+    searchCriterias.DeleteIndex(1);
+    searchCriterias.DeleteIndex(4);
 }
 
 func onAfterAutoMatchmakeWithParamPostpone(_ nex.PacketInterface, _ *matchmakingtypes.AutoMatchmakeParam) {
