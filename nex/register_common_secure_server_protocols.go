@@ -90,7 +90,7 @@ func cleanupMatchmakeSessionSearchCriteriasHandler(searchCriterias *types.List[*
   func onAfterAutoMatchmakeWithParamPostpone(_ nex.PacketInterface, _ *match_making_types.AutoMatchmakeParam) {
     globals.MatchmakingManager.Mutex.Lock()
 
-    err := globals.MatchmakingManager.Database.Exec(`UPDATE matchmaking.matchmake_sessions SET open_participation=true WHERE game_mode=12`)
+    _, err := globals.MatchmakingManager.Database.Exec(`UPDATE matchmaking.matchmake_sessions SET open_participation=true WHERE game_mode=12`)
     if err != nil {
       globals.Logger.Error(err.Error())
     }
