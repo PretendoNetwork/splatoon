@@ -3,6 +3,7 @@ package nex
 import (
 	"github.com/PretendoNetwork/nex-go/v2"
 	"github.com/PretendoNetwork/nex-go/v2/types"
+	types "github.com/PretendoNetwork/nex-go/v2/types"
 //	common_globals "github.com/PretendoNetwork/nex-protocols-common-go/v2/globals"
 	commonnattraversal "github.com/PretendoNetwork/nex-protocols-common-go/v2/nat-traversal"
 	commonsecure "github.com/PretendoNetwork/nex-protocols-common-go/v2/secure-connection"
@@ -89,8 +90,8 @@ func compareSearchCriteria[T ~uint16 | ~uint32](original T, search string) bool 
 
 func cleanupMatchmakeSessionSearchCriteriasHandler(searchCriterias *types.List[*match_making_types.MatchmakeSessionSearchCriteria]) {
 	for _, searchCriteria := range searchCriterias.Slice() {
-	  searchCriteria.Attribs.SetIndex(1, "")
-	  searchCriteria.Attribs.SetIndex(4, "")
+	  searchCriteria.Attribs.SetIndex(1, types.NewString(""))
+	  searchCriteria.Attribs.SetIndex(4, types.NewString(""))
 	}
   }
 
