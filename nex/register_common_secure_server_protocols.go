@@ -118,11 +118,6 @@ func gameSpecificMatchmakeSessionSearchCriteriaChecksHandler(searchCriteria *mat
 	return true
 }
 
-func cleanupMatchmakeSessionSearchCriteriasHandler(searchCriterias *types.List[*matchmakingtypes.MatchmakeSessionSearchCriteria]) {
-    searchCriterias.DeleteIndex(1);
-    searchCriterias.DeleteIndex(4);
-}
-
 func onAfterAutoMatchmakeWithParamPostpone(_ nex.PacketInterface, _ *matchmakingtypes.AutoMatchmakeParam) {
 	// * This is ugly but I can't work out a better way to do this
 	// * Set Splatfest rooms to open participation
