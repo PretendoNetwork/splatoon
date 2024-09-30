@@ -90,8 +90,8 @@ func cleanupMatchmakeSessionSearchCriteriasHandler(searchCriterias *types.List[*
     search := searchCriterias.Slice();
     
     for i, searchCriteriasElem := range search {
-        searchCriteriasElem.Attributes.DeleteIndex(1);
-        searchCriteriasElem.Attributes.DeleteIndex(4);
+        searchCriteriasElem.Attribs.DeleteIndex(1);
+        searchCriteriasElem.Attribs.DeleteIndex(4);
     }
 }
 
