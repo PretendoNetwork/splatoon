@@ -19,7 +19,7 @@ import (
 	commonranking "github.com/PretendoNetwork/nex-protocols-common-go/v2/ranking"
 	matchmaking "github.com/PretendoNetwork/nex-protocols-go/v2/match-making"
 	matchmakingext "github.com/PretendoNetwork/nex-protocols-go/v2/match-making-ext"
-	matchmakingtypes "github.com/PretendoNetwork/nex-protocols-go/v2/match-making/types"
+	match_making_types "github.com/PretendoNetwork/nex-protocols-go/v2/match-making/types"
 	matchmakeextension "github.com/PretendoNetwork/nex-protocols-go/v2/matchmake-extension"
 	ranking "github.com/PretendoNetwork/nex-protocols-go/v2/ranking/splatoon"
 )
@@ -37,7 +37,7 @@ func stubGetPlayingSession(err error, packet nex.PacketInterface, callID uint32,
 	connection := packet.Sender().(*nex.PRUDPConnection)
 	endpoint := connection.Endpoint().(*nex.PRUDPEndPoint)
 
-	lstPlayingSession := types.NewList[*matchmakingtypes.PlayingSession]()
+	lstPlayingSession := types.NewList[*match_making_types.PlayingSession]()
 
 	// * There are no sessions, I tell you!
 	//for _, playingSession := range playingSessions {
@@ -95,7 +95,7 @@ func cleanupMatchmakeSessionSearchCriteriasHandler(searchCriterias *types.List[*
   }
 
 
-func gameSpecificMatchmakeSessionSearchCriteriaChecksHandler(searchCriteria *matchmakingtypes.MatchmakeSessionSearchCriteria, matchmakeSession *matchmakingtypes.MatchmakeSession) bool {
+func gameSpecificMatchmakeSessionSearchCriteriaChecksHandler(searchCriteria *match_making_types.MatchmakeSessionSearchCriteria, matchmakeSession *match_making_types.MatchmakeSession) bool {
 	original := matchmakeSession.Attributes.Slice()
 	search := searchCriteria.Attribs.Slice()
 	if len(original) != len(search) {
@@ -118,7 +118,7 @@ func gameSpecificMatchmakeSessionSearchCriteriaChecksHandler(searchCriteria *mat
 	return true
 }
 
-func onAfterAutoMatchmakeWithParamPostpone(_ nex.PacketInterface, _ *matchmakingtypes.AutoMatchmakeParam) {
+func onAfterAutoMatchmakeWithParamPostpone(_ nex.PacketInterface, _ *match_making_types.AutoMatchmakeParam) {
 	// * This is ugly but I can't work out a better way to do this
 	// * Set Splatfest rooms to open participation
 //	for _, session := range common_globals.Sessions {
