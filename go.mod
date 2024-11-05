@@ -5,8 +5,8 @@ go 1.22.1
 require (
 	github.com/PretendoNetwork/grpc-go v1.0.2
 	github.com/PretendoNetwork/nex-go/v2 v2.0.2
-	github.com/PretendoNetwork/nex-protocols-common-go/v2 v2.0.5
-	github.com/PretendoNetwork/nex-protocols-go/v2 v2.0.3
+	github.com/PretendoNetwork/nex-protocols-common-go/v2 v2.0.6
+	github.com/PretendoNetwork/nex-protocols-go/v2 v2.0.4
 	github.com/PretendoNetwork/plogger-go v1.0.4
 	github.com/joho/godotenv v1.5.1
 	google.golang.org/grpc v1.63.2
@@ -34,7 +34,3 @@ require (
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240617180043-68d350f18fd4 // indirect
 	google.golang.org/protobuf v1.34.2 // indirect
 )
-
-replace github.com/PretendoNetwork/nex-protocols-common-go/v2 => /root/nex-protocols-common-go
-
-replace github.com/PretendoNetwork/nex-protocols-go/v2 => /root/nex-protocols-go
