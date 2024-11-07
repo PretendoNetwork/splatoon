@@ -50,7 +50,7 @@ func stubGetPlayingSession(err error, packet nex.PacketInterface, callID uint32,
 
 func cleanupMatchmakeSessionSearchCriteriasHandler(searchCriterias *types.List[*match_making_types.MatchmakeSessionSearchCriteria]) {
 	for _, searchCriteria := range searchCriterias.Slice() {
-		searchCriteria.Attribs.SetIndex(4, types.NewString(""))
+		_ = searchCriteria.Attribs.SetIndex(4, types.NewString(""))
 	}
 }
 
