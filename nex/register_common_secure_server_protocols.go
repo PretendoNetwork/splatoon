@@ -3,23 +3,20 @@ package nex
 import (
 	"github.com/PretendoNetwork/nex-go/v2"
 	"github.com/PretendoNetwork/nex-go/v2/types"
-	commonnattraversal "github.com/PretendoNetwork/nex-protocols-common-go/v2/nat-traversal"
-	commonsecure "github.com/PretendoNetwork/nex-protocols-common-go/v2/secure-connection"
-	nattraversal "github.com/PretendoNetwork/nex-protocols-go/v2/nat-traversal"
-	secure "github.com/PretendoNetwork/nex-protocols-go/v2/secure-connection"
-	"github.com/PretendoNetwork/splatoon/globals"
-	"strconv"
-	"strings"
-
 	commonmatchmaking "github.com/PretendoNetwork/nex-protocols-common-go/v2/match-making"
 	commonmatchmakingext "github.com/PretendoNetwork/nex-protocols-common-go/v2/match-making-ext"
 	commonmatchmakeextension "github.com/PretendoNetwork/nex-protocols-common-go/v2/matchmake-extension"
+	commonnattraversal "github.com/PretendoNetwork/nex-protocols-common-go/v2/nat-traversal"
 	commonranking "github.com/PretendoNetwork/nex-protocols-common-go/v2/ranking"
+	commonsecure "github.com/PretendoNetwork/nex-protocols-common-go/v2/secure-connection"
 	matchmaking "github.com/PretendoNetwork/nex-protocols-go/v2/match-making"
 	matchmakingext "github.com/PretendoNetwork/nex-protocols-go/v2/match-making-ext"
 	match_making_types "github.com/PretendoNetwork/nex-protocols-go/v2/match-making/types"
 	matchmakeextension "github.com/PretendoNetwork/nex-protocols-go/v2/matchmake-extension"
+	nattraversal "github.com/PretendoNetwork/nex-protocols-go/v2/nat-traversal"
 	ranking "github.com/PretendoNetwork/nex-protocols-go/v2/ranking/splatoon"
+	secure "github.com/PretendoNetwork/nex-protocols-go/v2/secure-connection"
+	"github.com/PretendoNetwork/splatoon/globals"
 )
 
 func CreateReportDBRecord(_ *types.PID, _ *types.PrimitiveU32, _ *types.QBuffer) error {
@@ -49,35 +46,6 @@ func stubGetPlayingSession(err error, packet nex.PacketInterface, callID uint32,
 	rmcResponse.CallID = callID
 
 	return rmcResponse, nil
-}
-
-// from nex-protocols-common-go/matchmaking_utils.go
-func compareSearchCriteria[T ~uint16 | ~uint32](original T, search string) bool {
-	if search == "" { // * Accept any value
-		return true
-	}
-
-	before, after, found := strings.Cut(search, ",")
-	if found {
-		min, err := strconv.ParseUint(before, 10, 64)
-		if err != nil {
-			return false
-		}
-
-		max, err := strconv.ParseUint(after, 10, 64)
-		if err != nil {
-			return false
-		}
-
-		return min <= uint64(original) && max >= uint64(original)
-	} else {
-		searchNum, err := strconv.ParseUint(before, 10, 64)
-		if err != nil {
-			return false
-		}
-
-		return searchNum == uint64(original)
-	}
 }
 
 func cleanupMatchmakeSessionSearchCriteriasHandler(searchCriterias *types.List[*match_making_types.MatchmakeSessionSearchCriteria]) {
