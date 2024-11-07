@@ -1,8 +1,10 @@
 package globals
 
 import (
+	"database/sql"
 	pb "github.com/PretendoNetwork/grpc-go/account"
 	"github.com/PretendoNetwork/nex-go/v2"
+	"github.com/PretendoNetwork/nex-protocols-common-go/v2/globals"
 	"github.com/PretendoNetwork/plogger-go"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
@@ -20,3 +22,6 @@ var SecureEndpoint *nex.PRUDPEndPoint
 var GRPCAccountClientConnection *grpc.ClientConn
 var GRPCAccountClient pb.AccountClient
 var GRPCAccountCommonMetadata metadata.MD
+
+var Postgres *sql.DB
+var MatchmakingManager *common_globals.MatchmakingManager

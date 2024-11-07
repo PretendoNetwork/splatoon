@@ -31,3 +31,6 @@ log
 *.key
 *.pcap
 *.pcapng
+
+# misc
+.DS_Store
