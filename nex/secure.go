@@ -2,7 +2,7 @@ package nex
 
 import (
 	"fmt"
-        common_globals "github.com/PretendoNetwork/nex-protocols-common-go/v2/globals"
+	common_globals "github.com/PretendoNetwork/nex-protocols-common-go/v2/globals"
 	"os"
 	"strconv"
 

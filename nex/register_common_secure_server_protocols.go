@@ -3,7 +3,6 @@ package nex
 import (
 	"github.com/PretendoNetwork/nex-go/v2"
 	"github.com/PretendoNetwork/nex-go/v2/types"
-//	common_globals "github.com/PretendoNetwork/nex-protocols-common-go/v2/globals"
 	commonnattraversal "github.com/PretendoNetwork/nex-protocols-common-go/v2/nat-traversal"
 	commonsecure "github.com/PretendoNetwork/nex-protocols-common-go/v2/secure-connection"
 	nattraversal "github.com/PretendoNetwork/nex-protocols-go/v2/nat-traversal"
@@ -83,19 +82,19 @@ func compareSearchCriteria[T ~uint16 | ~uint32](original T, search string) bool 
 
 func cleanupMatchmakeSessionSearchCriteriasHandler(searchCriterias *types.List[*match_making_types.MatchmakeSessionSearchCriteria]) {
 	for _, searchCriteria := range searchCriterias.Slice() {
-	  searchCriteria.Attribs.SetIndex(4, types.NewString(""))
+		searchCriteria.Attribs.SetIndex(4, types.NewString(""))
 	}
-  }
+}
 
-  func onAfterAutoMatchmakeWithParamPostpone(_ nex.PacketInterface, _ *match_making_types.AutoMatchmakeParam) {
-    globals.MatchmakingManager.Mutex.Lock()
+func onAfterAutoMatchmakeWithParamPostpone(_ nex.PacketInterface, _ *match_making_types.AutoMatchmakeParam) {
+	globals.MatchmakingManager.Mutex.Lock()
 
-    _, err := globals.MatchmakingManager.Database.Exec(`UPDATE matchmaking.matchmake_sessions SET open_participation=true WHERE game_mode=12`)
-    if err != nil {
-      globals.Logger.Error(err.Error())
-    }
+	_, err := globals.MatchmakingManager.Database.Exec(`UPDATE matchmaking.matchmake_sessions SET open_participation=true WHERE game_mode=12`)
+	if err != nil {
+		globals.Logger.Error(err.Error())
+	}
 
-    globals.MatchmakingManager.Mutex.Unlock()
+	globals.MatchmakingManager.Mutex.Unlock()
 }
 
 func registerCommonSecureServerProtocols() {
