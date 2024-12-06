@@ -19,8 +19,21 @@ import (
 	"github.com/PretendoNetwork/splatoon/globals"
 )
 
-func CreateReportDBRecord(_ *types.PID, _ *types.PrimitiveU32, _ *types.QBuffer) error {
-	return nil
+// that's right boys it's a FACTORY METHOD IN GO LET'S GOOOO
+func fCreateReportDBRecord() func(*types.PID, *types.PrimitiveU32, *types.QBuffer) error {
+	createReportStmt, err := globals.Postgres.Prepare(`INSERT INTO reports (ts, report_id, report) VALUES (NOW(), $1, $2)`)
+	if err != nil {
+		globals.Logger.Error(err.Error())
+	}
+
+	return func(pid *types.PID, id *types.PrimitiveU32, report *types.QBuffer) error {
+		if createReportStmt == nil {
+			return nil // Just drop the report in case of DB error - no need to freak out the client with a reported err
+		}
+
+		_, err := createReportStmt.Exec(id.Value, report.Value)
+		return err // consider not reporting this error to the client
+	}
 }
 
 func stubGetPlayingSession(err error, packet nex.PacketInterface, callID uint32, _ *types.List[*types.PID]) (*nex.RMCMessage, *nex.Error) {
@@ -70,7 +83,7 @@ func registerCommonSecureServerProtocols() {
 	globals.SecureEndpoint.RegisterServiceProtocol(secureProtocol)
 	commonSecureProtocol := commonsecure.NewCommonProtocol(secureProtocol)
 
-	commonSecureProtocol.CreateReportDBRecord = CreateReportDBRecord
+	commonSecureProtocol.CreateReportDBRecord = fCreateReportDBRecord()
 
 	natTraversalProtocol := nattraversal.NewProtocol()
 	globals.SecureEndpoint.RegisterServiceProtocol(natTraversalProtocol)

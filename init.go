@@ -110,4 +110,14 @@ func init() {
 		globals.Logger.Critical(err.Error())
 	}
 	globals.Logger.Success("Connected to Postgres!")
+
+	_, err = globals.Postgres.Exec(`CREATE TABLE IF NOT EXISTS reports (
+		id bigserial PRIMARY KEY,
+		ts timestamp,
+		report_id integer,
+		report bytea
+	)`)
+	if err != nil {
+		globals.Logger.Error(err.Error())
+	}
 }
