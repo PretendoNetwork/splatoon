@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/rand"
 	"database/sql"
 	"fmt"
 	"os"
@@ -26,19 +27,21 @@ func init() {
 		globals.Logger.Warning("Error loading .env file")
 	}
 
-	kerberosPassword := os.Getenv("PN_SPLATOON_KERBEROS_PASSWORD")
 	authenticationServerPort := os.Getenv("PN_SPLATOON_AUTHENTICATION_SERVER_PORT")
 	secureServerHost := os.Getenv("PN_SPLATOON_SECURE_SERVER_HOST")
 	secureServerPort := os.Getenv("PN_SPLATOON_SECURE_SERVER_PORT")
 	accountGRPCHost := os.Getenv("PN_SPLATOON_ACCOUNT_GRPC_HOST")
 	accountGRPCPort := os.Getenv("PN_SPLATOON_ACCOUNT_GRPC_PORT")
 	accountGRPCAPIKey := os.Getenv("PN_SPLATOON_ACCOUNT_GRPC_API_KEY")
-
-	if strings.TrimSpace(kerberosPassword) == "" {
-		globals.Logger.Warningf("PN_SPLATOON_KERBEROS_PASSWORD environment variable not set. Using default password: %q", globals.KerberosPassword)
-	} else {
-		globals.KerberosPassword = kerberosPassword
+	
+	kerberosPassword := make([]byte, 0x10)
+	_, err = rand.Read(kerberosPassword)
+	if err != nil {
+		globals.Logger.Error("Error generating Kerberos password")
+		os.Exit(0)
 	}
+
+	globals.KerberosPassword = string(kerberosPassword)
 
 	globals.InitAccounts()
 

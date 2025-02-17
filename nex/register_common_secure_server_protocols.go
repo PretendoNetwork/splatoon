@@ -19,11 +19,11 @@ import (
 	"github.com/PretendoNetwork/splatoon/globals"
 )
 
-func CreateReportDBRecord(_ *types.PID, _ *types.PrimitiveU32, _ *types.QBuffer) error {
+func CreateReportDBRecord(_ types.PID, _ types.UInt32, _ types.QBuffer) error {
 	return nil
 }
 
-func stubGetPlayingSession(err error, packet nex.PacketInterface, callID uint32, _ *types.List[*types.PID]) (*nex.RMCMessage, *nex.Error) {
+func stubGetPlayingSession(err error, packet nex.PacketInterface, callID uint32, _ types.List[types.PID]) (*nex.RMCMessage, *nex.Error) {
 	if err != nil {
 		globals.Logger.Error(err.Error())
 		return nil, nex.NewError(nex.ResultCodes.Core.InvalidArgument, "change_error")
@@ -48,13 +48,13 @@ func stubGetPlayingSession(err error, packet nex.PacketInterface, callID uint32,
 	return rmcResponse, nil
 }
 
-func cleanupMatchmakeSessionSearchCriteriasHandler(searchCriterias *types.List[*match_making_types.MatchmakeSessionSearchCriteria]) {
-	for _, searchCriteria := range searchCriterias.Slice() {
-		_ = searchCriteria.Attribs.SetIndex(4, types.NewString(""))
+func cleanupMatchmakeSessionSearchCriteriasHandler(searchCriterias types.List[match_making_types.MatchmakeSessionSearchCriteria]) {
+	for _, searchCriteria := range searchCriterias {
+		searchCriteria.Attribs[4] = types.NewString("")
 	}
 }
 
-func onAfterAutoMatchmakeWithParamPostpone(_ nex.PacketInterface, _ *match_making_types.AutoMatchmakeParam) {
+func onAfterAutoMatchmakeWithParamPostpone(_ nex.PacketInterface, _ match_making_types.AutoMatchmakeParam) {
 	globals.MatchmakingManager.Mutex.Lock()
 
 	_, err := globals.MatchmakingManager.Database.Exec(`UPDATE matchmaking.matchmake_sessions SET open_participation=true WHERE game_mode=12`)
