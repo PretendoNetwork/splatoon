@@ -4,7 +4,7 @@ ARG app_dir="/home/go/app"
 
 
 # * Building the application
-FROM golang:1.22-alpine3.20 AS build
+FROM golang:1.23-alpine3.20 AS build
 ARG app_dir
 
 WORKDIR ${app_dir}

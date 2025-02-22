@@ -15,7 +15,7 @@ func InitAccounts() {
 	SecureServerAccount = nex.NewAccount(types.NewPID(2), "Quazal Rendez-Vous", KerberosPassword)
 }
 
-func AccountDetailsByPID(pid *types.PID) (*nex.Account, *nex.Error) {
+func AccountDetailsByPID(pid types.PID) (*nex.Account, *nex.Error) {
 	if pid.Equals(AuthenticationServerAccount.PID) {
 		return AuthenticationServerAccount, nil
 	}
@@ -29,7 +29,7 @@ func AccountDetailsByPID(pid *types.PID) (*nex.Account, *nex.Error) {
 		return nil, nex.NewError(errorCode, "Failed to get password from PID")
 	}
 
-	account := nex.NewAccount(pid, strconv.Itoa(int(pid.LegacyValue())), password)
+	account := nex.NewAccount(pid, strconv.Itoa(int(pid)), password)
 
 	return account, nil
 }
