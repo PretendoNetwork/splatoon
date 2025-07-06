@@ -57,10 +57,11 @@ func cleanupMatchmakeSessionSearchCriteriasHandler(searchCriterias types.List[ma
 func onAfterAutoMatchmakeWithParamPostpone(_ nex.PacketInterface, _ match_making_types.AutoMatchmakeParam) {
 	globals.MatchmakingManager.Mutex.Lock()
 
-	_, err := globals.MatchmakingManager.Database.Exec(`UPDATE matchmaking.matchmake_sessions SET open_participation=true WHERE game_mode=12`)
+	//Splatfest hack, commented as it causes database strain
+	/*_, err := globals.MatchmakingManager.Database.Exec(`UPDATE matchmaking.matchmake_sessions SET open_participation=true WHERE game_mode=12`)
 	if err != nil {
 		globals.Logger.Error(err.Error())
-	}
+	}*/
 
 	globals.MatchmakingManager.Mutex.Unlock()
 }
