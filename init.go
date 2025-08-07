@@ -3,6 +3,7 @@ package main
 import (
 	"crypto/rand"
 	"database/sql"
+	"encoding/hex"
 	"fmt"
 	pbaccount "github.com/PretendoNetwork/grpc/go/account"
 	pbfriends "github.com/PretendoNetwork/grpc/go/friends"
@@ -37,6 +38,7 @@ func init() {
 	friendsGRPCHost := os.Getenv("PN_SPLATOON_FRIENDS_GRPC_HOST")
 	friendsGRPCPort := os.Getenv("PN_SPLATOON_FRIENDS_GRPC_PORT")
 	friendsGRPCAPIKey := os.Getenv("PN_SPLATOON_FRIENDS_GRPC_API_KEY")
+	tokenAesKey := os.Getenv("PN_PUYOPUYOTETRIS_AES_KEY")
 	localAuthMode := os.Getenv("PN_SPLATOON_LOCAL_AUTH")
 
 	kerberosPassword := make([]byte, 0x10)
@@ -146,6 +148,17 @@ func init() {
 	globals.GRPCFriendsCommonMetadata = metadata.Pairs(
 		"X-API-Key", friendsGRPCAPIKey,
 	)
+
+	if strings.TrimSpace(tokenAesKey) == "" {
+		globals.Logger.Error("PN_PUYOPUYOTETRIS_AES_KEY not set!")
+		os.Exit(0)
+	}
+
+	globals.TokenAESKey, err = hex.DecodeString(tokenAesKey)
+	if err != nil {
+		globals.Logger.Errorf("Failed to decode AES key: %v", err)
+		os.Exit(0)
+	}
 
 	globals.LocalAuthMode = localAuthMode == "1"
 	if globals.LocalAuthMode {

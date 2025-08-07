@@ -31,4 +31,5 @@ var GRPCFriendsCommonMetadata metadata.MD
 var Postgres *sql.DB
 var MatchmakingManager *common_globals.MatchmakingManager
 
+var TokenAESKey []byte
 var LocalAuthMode bool
