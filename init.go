@@ -4,11 +4,12 @@ import (
 	"crypto/rand"
 	"database/sql"
 	"fmt"
+	pbaccount "github.com/PretendoNetwork/grpc/go/account"
+	pbfriends "github.com/PretendoNetwork/grpc/go/friends"
 	"os"
 	"strconv"
 	"strings"
 
-	pb "github.com/PretendoNetwork/grpc-go/account"
 	"github.com/PretendoNetwork/plogger-go"
 	"github.com/PretendoNetwork/splatoon/globals"
 	"github.com/joho/godotenv"
@@ -33,7 +34,11 @@ func init() {
 	accountGRPCHost := os.Getenv("PN_SPLATOON_ACCOUNT_GRPC_HOST")
 	accountGRPCPort := os.Getenv("PN_SPLATOON_ACCOUNT_GRPC_PORT")
 	accountGRPCAPIKey := os.Getenv("PN_SPLATOON_ACCOUNT_GRPC_API_KEY")
-	
+	friendsGRPCHost := os.Getenv("PN_SPLATOON_FRIENDS_GRPC_HOST")
+	friendsGRPCPort := os.Getenv("PN_SPLATOON_FRIENDS_GRPC_PORT")
+	friendsGRPCAPIKey := os.Getenv("PN_SPLATOON_FRIENDS_GRPC_API_KEY")
+	localAuthMode := os.Getenv("PN_SPLATOON_LOCAL_AUTH")
+
 	kerberosPassword := make([]byte, 0x10)
 	_, err = rand.Read(kerberosPassword)
 	if err != nil {
@@ -104,10 +109,50 @@ func init() {
 		os.Exit(0)
 	}
 
-	globals.GRPCAccountClient = pb.NewAccountClient(globals.GRPCAccountClientConnection)
+	globals.GRPCAccountClient = pbaccount.NewAccountClient(globals.GRPCAccountClientConnection)
 	globals.GRPCAccountCommonMetadata = metadata.Pairs(
 		"X-API-Key", accountGRPCAPIKey,
 	)
+
+	if strings.TrimSpace(friendsGRPCHost) == "" {
+		globals.Logger.Error("PN_SPLATOON_FRIENDS_GRPC_HOST environment variable not set")
+		os.Exit(0)
+	}
+
+	if strings.TrimSpace(friendsGRPCPort) == "" {
+		globals.Logger.Error("PN_SPLATOON_FRIENDS_GRPC_PORT environment variable not set")
+		os.Exit(0)
+	}
+
+	if port, err := strconv.Atoi(friendsGRPCPort); err != nil {
+		globals.Logger.Errorf("PN_SPLATOON_FRIENDS_GRPC_PORT is not a valid port. Expected 0-65535, got %s", accountGRPCPort)
+		os.Exit(0)
+	} else if port < 0 || port > 65535 {
+		globals.Logger.Errorf("PN_SPLATOON_FRIENDS_GRPC_PORT is not a valid port. Expected 0-65535, got %s", accountGRPCPort)
+		os.Exit(0)
+	}
+
+	if strings.TrimSpace(friendsGRPCAPIKey) == "" {
+		globals.Logger.Warning("Insecure gRPC server detected. PN_SPLATOON_FRIENDS_GRPC_API_KEY environment variable not set")
+	}
+
+	globals.GRPCFriendsClientConnection, err = grpc.NewClient(fmt.Sprintf("dns:%s:%s", friendsGRPCHost, friendsGRPCPort), grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		globals.Logger.Criticalf("Failed to connect to account gRPC server: %v", err)
+		os.Exit(0)
+	}
+
+	globals.GRPCFriendsClient = pbfriends.NewFriendsClient(globals.GRPCFriendsClientConnection)
+	globals.GRPCFriendsCommonMetadata = metadata.Pairs(
+		"X-API-Key", friendsGRPCAPIKey,
+	)
+
+	globals.LocalAuthMode = localAuthMode == "1"
+	if globals.LocalAuthMode {
+		globals.Logger.Warning("Local authentication mode is enabled. Token validation will be skipped!")
+		globals.Logger.Warning("This is insecure and could allow ban bypasses!")
+	}
+
 	globals.Postgres, err = sql.Open("postgres", os.Getenv("PN_SPLATOON_POSTGRES_URI"))
 	if err != nil {
 		globals.Logger.Critical(err.Error())

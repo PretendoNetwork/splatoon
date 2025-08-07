@@ -2,7 +2,8 @@ package globals
 
 import (
 	"database/sql"
-	pb "github.com/PretendoNetwork/grpc-go/account"
+	pbaccount "github.com/PretendoNetwork/grpc/go/account"
+	pbfriends "github.com/PretendoNetwork/grpc/go/friends"
 	"github.com/PretendoNetwork/nex-go/v2"
 	"github.com/PretendoNetwork/nex-protocols-common-go/v2/globals"
 	"github.com/PretendoNetwork/plogger-go"
@@ -20,8 +21,14 @@ var SecureServer *nex.PRUDPServer
 var SecureEndpoint *nex.PRUDPEndPoint
 
 var GRPCAccountClientConnection *grpc.ClientConn
-var GRPCAccountClient pb.AccountClient
+var GRPCAccountClient pbaccount.AccountClient
 var GRPCAccountCommonMetadata metadata.MD
+
+var GRPCFriendsClientConnection *grpc.ClientConn
+var GRPCFriendsClient pbfriends.FriendsClient
+var GRPCFriendsCommonMetadata metadata.MD
 
 var Postgres *sql.DB
 var MatchmakingManager *common_globals.MatchmakingManager
+
+var LocalAuthMode bool

@@ -38,6 +38,7 @@ func StartSecureServer() {
 	})
 
 	globals.MatchmakingManager = common_globals.NewMatchmakingManager(globals.SecureEndpoint, globals.Postgres)
+	globals.MatchmakingManager.GetUserFriendPIDs = globals.GetUserFriendPIDs
 
 	registerCommonSecureServerProtocols()
 
