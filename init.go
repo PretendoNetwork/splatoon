@@ -5,11 +5,12 @@ import (
 	"database/sql"
 	"encoding/hex"
 	"fmt"
-	pbaccount "github.com/PretendoNetwork/grpc/go/account"
-	pbfriends "github.com/PretendoNetwork/grpc/go/friends"
 	"os"
 	"strconv"
 	"strings"
+
+	pbaccount "github.com/PretendoNetwork/grpc/go/account"
+	pbfriends "github.com/PretendoNetwork/grpc/go/friends"
 
 	"github.com/PretendoNetwork/plogger-go"
 	"github.com/PretendoNetwork/splatoon/globals"
@@ -38,7 +39,7 @@ func init() {
 	friendsGRPCHost := os.Getenv("PN_SPLATOON_FRIENDS_GRPC_HOST")
 	friendsGRPCPort := os.Getenv("PN_SPLATOON_FRIENDS_GRPC_PORT")
 	friendsGRPCAPIKey := os.Getenv("PN_SPLATOON_FRIENDS_GRPC_API_KEY")
-	tokenAesKey := os.Getenv("PN_PUYOPUYOTETRIS_AES_KEY")
+	tokenAesKey := os.Getenv("PN_SPLATOON_AES_KEY")
 	localAuthMode := os.Getenv("PN_SPLATOON_LOCAL_AUTH")
 
 	kerberosPassword := make([]byte, 0x10)
