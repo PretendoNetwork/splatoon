@@ -8,6 +8,8 @@ github.com/PretendoNetwork/nex-protocols-common-go/v2 v2.2.2 h1:rBJNZDJ92pa9fU3O
 github.com/PretendoNetwork/nex-protocols-common-go/v2 v2.2.2/go.mod h1:iuNMuBK/zww+44d6ajfLsOusXx/6Llj3zSkmhJwMuuM=
 github.com/PretendoNetwork/nex-protocols-common-go/v2 v2.4.0 h1:EhXj1EDbNgdg40BPx/7n1HHsAy/DayGIWthu81UNyvI=
 github.com/PretendoNetwork/nex-protocols-common-go/v2 v2.4.0/go.mod h1:tNtZly5sL3wfy4LVgybS2efm00L/wNgyvcrBV59S/YM=
+github.com/PretendoNetwork/nex-protocols-common-go/v2 v2.4.1-0.20250809110555-cf55627f0b5a h1:mi7Qlysby01rI8o13vqmTtcSdO8blFEHVUbuaxKwEFM=
+github.com/PretendoNetwork/nex-protocols-common-go/v2 v2.4.1-0.20250809110555-cf55627f0b5a/go.mod h1:tNtZly5sL3wfy4LVgybS2efm00L/wNgyvcrBV59S/YM=
 github.com/PretendoNetwork/nex-protocols-go/v2 v2.2.1 h1:/dsuP0W7bZNvrXoXH0ZRdxpxonfbWmmson51WCQdpEQ=
 github.com/PretendoNetwork/nex-protocols-go/v2 v2.2.1/go.mod h1:+soBHmwX6ixGxj6cphLuCvfJqxcZPuowc/5e7Qi9Bz0=
 github.com/PretendoNetwork/plogger-go v1.1.0 h1:x2XgyeeM8zDFGy+NcIZd3SYC2fNrVWpBBbkqTejOfiM=
