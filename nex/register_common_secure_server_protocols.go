@@ -1,7 +1,6 @@
 package nex
 
 import (
-	"github.com/PretendoNetwork/nex-go/v2"
 	"github.com/PretendoNetwork/nex-go/v2/types"
 	commonmatchmaking "github.com/PretendoNetwork/nex-protocols-common-go/v2/match-making"
 	commonmatchmakingext "github.com/PretendoNetwork/nex-protocols-common-go/v2/match-making-ext"
@@ -23,31 +22,6 @@ func CreateReportDBRecord(_ types.PID, _ types.UInt32, _ types.QBuffer) error {
 	return nil
 }
 
-func stubGetPlayingSession(err error, packet nex.PacketInterface, callID uint32, _ types.List[types.PID]) (*nex.RMCMessage, *nex.Error) {
-	if err != nil {
-		globals.Logger.Error(err.Error())
-		return nil, nex.NewError(nex.ResultCodes.Core.InvalidArgument, "change_error")
-	}
-
-	connection := packet.Sender().(*nex.PRUDPConnection)
-	endpoint := connection.Endpoint().(*nex.PRUDPEndPoint)
-
-	lstPlayingSession := types.NewList[*match_making_types.PlayingSession]()
-
-	rmcResponseStream := nex.NewByteStreamOut(endpoint.LibraryVersions(), endpoint.ByteStreamSettings())
-
-	lstPlayingSession.WriteTo(rmcResponseStream)
-
-	rmcResponseBody := rmcResponseStream.Bytes()
-
-	rmcResponse := nex.NewRMCSuccess(endpoint, rmcResponseBody)
-	rmcResponse.ProtocolID = matchmakeextension.ProtocolID
-	rmcResponse.MethodID = matchmakeextension.MethodGetSimplePlayingSession
-	rmcResponse.CallID = callID
-
-	return rmcResponse, nil
-}
-
 func cleanupMatchmakeSessionSearchCriteriasHandler(searchCriterias types.List[match_making_types.MatchmakeSessionSearchCriteria]) {
 	for _, searchCriteria := range searchCriterias {
 		searchCriteria.Attribs[4] = types.NewString("")
@@ -58,7 +32,7 @@ func registerCommonSecureServerProtocols() {
 	secureProtocol := secure.NewProtocol()
 	globals.SecureEndpoint.RegisterServiceProtocol(secureProtocol)
 	commonSecureProtocol := commonsecure.NewCommonProtocol(secureProtocol)
-
+	commonSecureProtocol.EnableInsecureRegister()
 	commonSecureProtocol.CreateReportDBRecord = CreateReportDBRecord
 
 	natTraversalProtocol := nattraversal.NewProtocol()
@@ -78,7 +52,6 @@ func registerCommonSecureServerProtocols() {
 	matchmakeExtensionProtocol := matchmakeextension.NewProtocol()
 	globals.SecureEndpoint.RegisterServiceProtocol(matchmakeExtensionProtocol)
 	commonMatchmakeExtensionProtocol := commonmatchmakeextension.NewCommonProtocol(matchmakeExtensionProtocol)
-	matchmakeExtensionProtocol.SetHandlerGetPlayingSession(stubGetPlayingSession)
 	commonMatchmakeExtensionProtocol.CleanupMatchmakeSessionSearchCriterias = cleanupMatchmakeSessionSearchCriteriasHandler
 	commonMatchmakeExtensionProtocol.SetManager(globals.MatchmakingManager)
 
