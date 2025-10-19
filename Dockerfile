@@ -4,7 +4,7 @@ ARG app_dir="/home/go/app"
 
 
 # * Building the application
-FROM golang:1.23-alpine3.20 AS build
+FROM golang:1.25-alpine3.22 AS build
 ARG app_dir
 
 WORKDIR ${app_dir}
@@ -20,7 +20,7 @@ RUN --mount=type=cache,target=/go/pkg/mod/ \
 
 
 # * Running the final application
-FROM alpine:3.20 AS final
+FROM alpine:3.22 AS final
 ARG app_dir
 WORKDIR ${app_dir}
 
