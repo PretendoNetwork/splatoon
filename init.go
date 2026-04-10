@@ -41,6 +41,8 @@ func init() {
 	friendsGRPCAPIKey := os.Getenv("PN_SPLATOON_FRIENDS_GRPC_API_KEY")
 	tokenAesKey := os.Getenv("PN_SPLATOON_AES_KEY")
 	localAuthMode := os.Getenv("PN_SPLATOON_LOCAL_AUTH")
+	GRPCServerAPIKey := os.Getenv("PN_SPLATOON_GRPC_SERVER_API_KEY")
+	GRPCServerPort := os.Getenv("PN_SPLATOON_GRPC_SERVER_PORT")
 
 	kerberosPassword := make([]byte, 0x10)
 	_, err = rand.Read(kerberosPassword)
@@ -134,6 +136,28 @@ func init() {
 		globals.Logger.Errorf("PN_SPLATOON_FRIENDS_GRPC_PORT is not a valid port. Expected 0-65535, got %s", accountGRPCPort)
 		os.Exit(0)
 	}
+
+	//
+	if strings.TrimSpace(GRPCServerAPIKey) == "" {
+		globals.Logger.Error("PN_SPLATOON_GRPC_SERVER_API_KEY environment variable not set")
+		os.Exit(0)
+	}
+	globals.GRPCServerAPIKey = GRPCServerAPIKey
+	if strings.TrimSpace(GRPCServerPort) == "" {
+		globals.Logger.Error("PN_SPLATOON_GRPC_SERVER_PORT environment variable not set")
+		os.Exit(0)
+	}
+
+	if port, err := strconv.Atoi(GRPCServerPort); err != nil {
+		globals.Logger.Errorf("PN_SPLATOON_GRPC_SERVER_PORT is not a valid port. Expected 0-65535, got %s", accountGRPCPort)
+		os.Exit(0)
+	} else if port < 0 || port > 65535 {
+		globals.Logger.Errorf("PN_SPLATOON_GRPC_SERVER_PORT is not a valid port. Expected 0-65535, got %s", accountGRPCPort)
+		os.Exit(0)
+	} else {
+		globals.GRPCServerPort = port
+	}
+	//
 
 	if strings.TrimSpace(friendsGRPCAPIKey) == "" {
 		globals.Logger.Warning("Insecure gRPC server detected. PN_SPLATOON_FRIENDS_GRPC_API_KEY environment variable not set")

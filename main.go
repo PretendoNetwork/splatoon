@@ -3,6 +3,7 @@ package main
 import (
 	"sync"
 
+	"github.com/PretendoNetwork/splatoon/grpc"
 	"github.com/PretendoNetwork/splatoon/nex"
 )
 
@@ -14,6 +15,6 @@ func main() {
 	// TODO - Add gRPC server
 	go nex.StartAuthenticationServer()
 	go nex.StartSecureServer()
-
+	go grpc.StartGRPCServer()
 	wg.Wait()
 }

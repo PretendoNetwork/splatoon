@@ -2,10 +2,11 @@ package globals
 
 import (
 	"database/sql"
+
 	pbaccount "github.com/PretendoNetwork/grpc/go/account"
 	pbfriends "github.com/PretendoNetwork/grpc/go/friends"
 	"github.com/PretendoNetwork/nex-go/v2"
-	"github.com/PretendoNetwork/nex-protocols-common-go/v2/globals"
+	common_globals "github.com/PretendoNetwork/nex-protocols-common-go/v2/globals"
 	"github.com/PretendoNetwork/plogger-go"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
@@ -33,3 +34,6 @@ var MatchmakingManager *common_globals.MatchmakingManager
 
 var TokenAESKey []byte
 var LocalAuthMode bool
+
+var GRPCServerAPIKey string
+var GRPCServerPort int
