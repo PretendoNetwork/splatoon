@@ -56,6 +56,7 @@ func registerCommonSecureServerProtocols() {
 	commonMatchmakeExtensionProtocol.SetManager(globals.MatchmakingManager)
 
 	rankingProtocol := ranking.NewProtocol(globals.SecureEndpoint)
+	rankingProtocol.UploadCompetitionRankingScore = globals.UploadCompetitionRankingScore
 	globals.SecureEndpoint.RegisterServiceProtocol(rankingProtocol)
 	commonranking.NewCommonProtocol(rankingProtocol)
 }
