@@ -1,6 +1,7 @@
 package globals
 
 import (
+	"fmt"
 	nex "github.com/PretendoNetwork/nex-go/v2"
 	ranking "github.com/PretendoNetwork/nex-protocols-go/v2/ranking/splatoon"
 )
@@ -18,27 +19,27 @@ func UploadCompetitionRankingScore(err error, packet nex.PacketInterface, callID
 	// Read CompetitionRankingUploadScoreParam data
 	festivalID, streamErr := parametersStream.ReadUInt32LE()
 	if streamErr != nil {
-		return nil, nex.NewError(nex.ResultCodes.Core.Unknown, "Failed to read festival_id")
+		return nil, nex.NewError(nex.ResultCodes.Core.Unknown, fmt.Sprintf("Failed to read festival_id: %v", streamErr))
 	}
 
 	score, streamErr := parametersStream.ReadUInt32LE()
 	if streamErr != nil {
-		return nil, nex.NewError(nex.ResultCodes.Core.Unknown, "Failed to read score")
+		return nil, nex.NewError(nex.ResultCodes.Core.Unknown, fmt.Sprintf("Failed to read score: %v", streamErr))
 	}
 
 	teamID, streamErr := parametersStream.ReadUInt8()
 	if streamErr != nil {
-		return nil, nex.NewError(nex.ResultCodes.Core.Unknown, "Failed to read team_id")
+		return nil, nex.NewError(nex.ResultCodes.Core.Unknown, fmt.Sprintf("Failed to read team_id: %v", streamErr))
 	}
 
 	teamScore, streamErr := parametersStream.ReadUInt32LE()
 	if streamErr != nil {
-		return nil, nex.NewError(nex.ResultCodes.Core.Unknown, "Failed to read team_score")
+		return nil, nex.NewError(nex.ResultCodes.Core.Unknown, fmt.Sprintf("Failed to read team_score: %v", streamErr))
 	}
 
 	isFirstUpload, streamErr := parametersStream.ReadBool()
 	if streamErr != nil {
-		return nil, nex.NewError(nex.ResultCodes.Core.Unknown, "Failed to read is_first_upload")
+		return nil, nex.NewError(nex.ResultCodes.Core.Unknown, fmt.Sprintf("Failed to read is_first_upload: %v", streamErr))
 	}
 
 	pid := packet.Sender().PID()
