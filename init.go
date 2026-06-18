@@ -151,7 +151,7 @@ func init() {
 	)
 
 	if strings.TrimSpace(tokenAesKey) == "" {
-		globals.Logger.Error("PN_PUYOPUYOTETRIS_AES_KEY not set!")
+		globals.Logger.Error("PN_SPLATOON_AES_KEY not set!")
 		os.Exit(0)
 	}
 
