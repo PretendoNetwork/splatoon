@@ -5,7 +5,7 @@ go 1.25.0
 require (
 	github.com/PretendoNetwork/grpc/go v0.0.0-20260501210425-981c793afb28
 	github.com/PretendoNetwork/nex-go/v2 v2.3.1
-	github.com/PretendoNetwork/nex-protocols-common-go/v2 v2.4.1-0.20260717203532-af94ffc9be23
+	github.com/PretendoNetwork/nex-protocols-common-go/v2 v2.6.1-0.20260724120645-40be78dacd94
 	github.com/PretendoNetwork/nex-protocols-go/v2 v2.3.6-0.20260718144111-55050c33ce7a
 	github.com/PretendoNetwork/plogger-go v1.1.0
 	github.com/joho/godotenv v1.5.1
