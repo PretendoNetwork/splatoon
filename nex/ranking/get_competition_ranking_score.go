@@ -6,8 +6,53 @@ import (
 	common_globals "github.com/PretendoNetwork/nex-protocols-common-go/v2/globals"
 	ranking "github.com/PretendoNetwork/nex-protocols-go/v2/ranking/splatoon"
 	"github.com/PretendoNetwork/splatoon/globals"
+	"github.com/PretendoNetwork/splatoon/nex/ranking/database"
 	ranking_splatoon_types "github.com/PretendoNetwork/splatoon/nex/ranking/types"
 )
+
+func GetSingleCompetitionRankingScore(splatfestID uint32) (ranking_splatoon_types.CompetitionRankingScoreInfo, error) {
+	var err error
+	info := ranking_splatoon_types.NewCompetitionRankingScoreInfo()
+
+	info.FestId = types.UInt32(splatfestID)
+
+	var team_alpha_count uint32
+	team_alpha_count, err = database.GetVoteCount(splatfestID, 0)
+	if err != nil {
+		return info, err
+	}
+	info.TeamVotes = append(info.TeamVotes, types.UInt32(team_alpha_count))
+
+	var team_bravo_count uint32
+	team_bravo_count, err = database.GetVoteCount(splatfestID, 1)
+	if err != nil {
+		return info, err
+	}
+	info.TeamVotes = append(info.TeamVotes, types.UInt32(team_bravo_count))
+
+	var team_alpha_wins uint32
+	team_alpha_wins, err = database.GetWinCount(splatfestID, 0)
+	if err != nil {
+		return info, err
+	}
+	info.TeamWins = append(info.TeamWins, types.UInt32(team_alpha_wins))
+
+	var team_bravo_wins uint32
+	team_bravo_wins, err = database.GetVoteCount(splatfestID, 1)
+	if err != nil {
+		return info, err
+	}
+	info.TeamWins = append(info.TeamWins, types.UInt32(team_bravo_wins))
+
+	var scoreDataEntries []ranking_splatoon_types.CompetitionRankingScoreData
+	scoreDataEntries, err = database.GetScoreDataEntries(splatfestID)
+	if err != nil {
+		return info, err
+	}
+	info.ScoreData = scoreDataEntries
+
+	return info, nil
+}
 
 func GetCompetitionRankingScore(err error, packet nex.PacketInterface, callID uint32, packetPayload []byte) (*nex.RMCMessage, *nex.Error) {
 	rmcResponseStream := nex.NewByteStreamOut(globals.SecureServer.LibraryVersions, globals.SecureServer.ByteStreamSettings)
@@ -24,8 +69,19 @@ func GetCompetitionRankingScore(err error, packet nex.PacketInterface, callID ui
 		return nil, nex.NewError(nex.ResultCodes.Core.InvalidArgument, err.Error())
 	}
 
-	// todo: actually implement this function
 	retVal := types.NewList[ranking_splatoon_types.CompetitionRankingScoreInfo]()
+	var festListIndex uint32
+	for festListIndex = 0; festListIndex < uint32(params.ResultRange.Length); festListIndex++ {
+		if festListIndex >= uint32(len(params.FestivalIds)) {
+			return nil, nex.NewError(nex.ResultCodes.Core.InvalidArgument, "out of resultrange is out of bounds")
+		}
+		festId := params.FestivalIds[festListIndex+uint32(params.ResultRange.Offset)]
+		info, err := GetSingleCompetitionRankingScore(uint32(festId))
+		if err != nil {
+			return nil, nex.NewError(nex.ResultCodes.Core.Exception, "error retrieving ranking scores")
+		}
+		retVal = append(retVal, info)
+	}
 
 	retVal.WriteTo(rmcResponseStream)
 

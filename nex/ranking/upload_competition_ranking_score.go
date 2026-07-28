@@ -6,6 +6,7 @@ import (
 	common_globals "github.com/PretendoNetwork/nex-protocols-common-go/v2/globals"
 	ranking "github.com/PretendoNetwork/nex-protocols-go/v2/ranking/splatoon"
 	"github.com/PretendoNetwork/splatoon/globals"
+	"github.com/PretendoNetwork/splatoon/nex/ranking/database"
 	ranking_splatoon_types "github.com/PretendoNetwork/splatoon/nex/ranking/types"
 )
 
@@ -24,7 +25,10 @@ func UploadCompetitionRankingScore(err error, packet nex.PacketInterface, callID
 		return nil, nex.NewError(nex.ResultCodes.Core.InvalidArgument, err.Error())
 	}
 
-	types.NewBool(false).WriteTo(rmcResponseStream)
+	database.StoreUserMatchResult(packet.Sender().PID(), params)
+	database.StoreUserScore(packet.Sender().PID(), params)
+
+	types.NewBool(true).WriteTo(rmcResponseStream)
 
 	rmcResponse := nex.NewRMCSuccess(globals.SecureEndpoint, rmcResponseStream.Bytes())
 	rmcResponse.ProtocolID = ranking.ProtocolID

@@ -1,6 +1,9 @@
 package nex
 
 import (
+	"slices"
+
+	"github.com/PretendoNetwork/nex-go/v2"
 	"github.com/PretendoNetwork/nex-go/v2/types"
 	commonmatchmaking "github.com/PretendoNetwork/nex-protocols-common-go/v2/match-making"
 	commonmatchmakingext "github.com/PretendoNetwork/nex-protocols-common-go/v2/match-making-ext"
@@ -17,6 +20,7 @@ import (
 	secure "github.com/PretendoNetwork/nex-protocols-go/v2/secure-connection"
 	"github.com/PretendoNetwork/splatoon/globals"
 	ranking_impl "github.com/PretendoNetwork/splatoon/nex/ranking"
+	"github.com/PretendoNetwork/splatoon/nex/ranking/database"
 )
 
 func CreateReportDBRecord(_ types.PID, _ types.UInt32, _ types.QBuffer) error {
@@ -29,11 +33,19 @@ func cleanupMatchmakeSessionSearchCriteriasHandler(searchCriterias types.List[ma
 	}
 }
 
+func adjustPublicStationFirst(packet nex.PacketInterface, urls types.List[types.StationURL], dataHolder types.DataHolder) {
+	connection := packet.Sender().(*nex.PRUDPConnection)
+	slices.Reverse(connection.StationURLs)
+}
+
 func registerCommonSecureServerProtocols() {
+	database.Setup()
+
 	secureProtocol := secure.NewProtocol()
 	globals.SecureEndpoint.RegisterServiceProtocol(secureProtocol)
 	commonSecureProtocol := commonsecure.NewCommonProtocol(secureProtocol)
 	commonSecureProtocol.EnableInsecureRegister()
+	commonSecureProtocol.OnAfterRegisterEx = adjustPublicStationFirst
 	commonSecureProtocol.CreateReportDBRecord = CreateReportDBRecord
 
 	natTraversalProtocol := nattraversal.NewProtocol()
