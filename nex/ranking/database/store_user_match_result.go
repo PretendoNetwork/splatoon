@@ -16,7 +16,7 @@ func StoreUserMatchResult(userPID types.PID, data ranking_splatoon_types.Competi
 			team_id,
 			team_score
 		) VALUES ($1, $2, $3, $4, $5)
-	`, int64(userPID), int64(data.SplatfestId), int64(data.Score), int16(data.TeamId), int64(data.TeamScore))
+	`, int64(userPID), int64(data.SplatfestId), int64(data.Score), int16(data.TeamID), int64(data.TeamScore))
 
 	if err != nil {
 		return err

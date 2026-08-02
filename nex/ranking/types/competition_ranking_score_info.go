@@ -11,7 +11,7 @@ import (
 // CompetitionRankingScoreInfo is a type within the Ranking protocol
 type CompetitionRankingScoreInfo struct {
 	types.Structure
-	FestId    types.UInt32
+	FestID    types.UInt32
 	ScoreData types.List[CompetitionRankingScoreData]
 	Unknown   types.UInt32
 	TeamWins  types.List[types.UInt32]
@@ -22,7 +22,7 @@ type CompetitionRankingScoreInfo struct {
 func (crsi CompetitionRankingScoreInfo) WriteTo(writable types.Writable) {
 	contentWritable := writable.CopyNew()
 
-	crsi.FestId.WriteTo(contentWritable)
+	crsi.FestID.WriteTo(contentWritable)
 	crsi.ScoreData.WriteTo(contentWritable)
 	crsi.Unknown.WriteTo(contentWritable)
 	crsi.TeamWins.WriteTo(contentWritable)
@@ -41,7 +41,7 @@ func (crsi CompetitionRankingScoreInfo) ExtractFrom(readable types.Readable) err
 		return fmt.Errorf("failed to extract CompetitionRankingScoreInfo header. %s", err.Error())
 	}
 
-	if err := crsi.FestId.ExtractFrom(readable); err != nil {
+	if err := crsi.FestID.ExtractFrom(readable); err != nil {
 		return fmt.Errorf("failed to extract CompetitionRankingScoreInfo.FestId. %s", err.Error())
 	}
 
@@ -69,7 +69,7 @@ func (crsi CompetitionRankingScoreInfo) Copy() types.RVType {
 	copied := NewCompetitionRankingScoreInfo()
 
 	copied.StructureVersion = crsi.StructureVersion
-	copied.FestId = crsi.FestId.Copy().(types.UInt32)
+	copied.FestID = crsi.FestID.Copy().(types.UInt32)
 	copied.ScoreData = crsi.ScoreData.Copy().(types.List[CompetitionRankingScoreData])
 	copied.Unknown = crsi.Unknown.Copy().(types.UInt32)
 	copied.TeamWins = crsi.TeamWins.Copy().(types.List[types.UInt32])
@@ -90,7 +90,7 @@ func (crsi CompetitionRankingScoreInfo) Equals(o types.RVType) bool {
 		return false
 	}
 
-	if !crsi.FestId.Equals(other.FestId) {
+	if !crsi.FestID.Equals(other.FestID) {
 		return false
 	}
 
@@ -140,7 +140,7 @@ func (crsi CompetitionRankingScoreInfo) FormatToString(indentationLevel int) str
 	var b strings.Builder
 
 	b.WriteString("CompetitionRankingScoreInfo{\n")
-	fmt.Fprintf(&b, "%sFestId: %s,\n", indentationValues, crsi.FestId)
+	fmt.Fprintf(&b, "%sFestId: %s,\n", indentationValues, crsi.FestID)
 	fmt.Fprintf(&b, "%sScoreData: %s,\n", indentationValues, crsi.ScoreData)
 	fmt.Fprintf(&b, "%sUnknown: %s,\n", indentationValues, crsi.Unknown)
 	fmt.Fprintf(&b, "%sTeamWins: %s,\n", indentationValues, crsi.TeamWins)
@@ -153,7 +153,7 @@ func (crsi CompetitionRankingScoreInfo) FormatToString(indentationLevel int) str
 // NewCompetitionRankingScoreInfo returns a new CompetitionRankingScoreInfo
 func NewCompetitionRankingScoreInfo() CompetitionRankingScoreInfo {
 	return CompetitionRankingScoreInfo{
-		FestId:    types.NewUInt32(0),
+		FestID:    types.NewUInt32(0),
 		ScoreData: types.NewList[CompetitionRankingScoreData](),
 		Unknown:   types.NewUInt32(0),
 		TeamWins:  types.NewList[types.UInt32](),

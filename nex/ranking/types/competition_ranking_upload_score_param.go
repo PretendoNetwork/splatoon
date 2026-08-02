@@ -15,7 +15,7 @@ type CompetitionRankingUploadScoreParam struct {
 	SplatfestId   types.UInt32
 	Unknown2      types.UInt32
 	Score         types.UInt32
-	TeamId        types.UInt8
+	TeamID        types.UInt8
 	TeamScore     types.UInt32
 	IsFirstUpload types.Bool
 	AppData       types.QBuffer
@@ -29,7 +29,7 @@ func (crusp CompetitionRankingUploadScoreParam) WriteTo(writable types.Writable)
 	crusp.SplatfestId.WriteTo(contentWritable)
 	crusp.Unknown2.WriteTo(contentWritable)
 	crusp.Score.WriteTo(contentWritable)
-	crusp.TeamId.WriteTo(contentWritable)
+	crusp.TeamID.WriteTo(contentWritable)
 	crusp.TeamScore.WriteTo(contentWritable)
 	crusp.IsFirstUpload.WriteTo(contentWritable)
 	crusp.AppData.WriteTo(contentWritable)
@@ -59,7 +59,7 @@ func (crusp CompetitionRankingUploadScoreParam) ExtractFrom(readable types.Reada
 	if err := crusp.Score.ExtractFrom(readable); err != nil {
 		return fmt.Errorf("failed to extract CompetitionRankingUploadScoreParam.Score. %s", err.Error())
 	}
-	if err := crusp.TeamId.ExtractFrom(readable); err != nil {
+	if err := crusp.TeamID.ExtractFrom(readable); err != nil {
 		return fmt.Errorf("failed to extract CompetitionRankingUploadScoreParam.TeamId. %s", err.Error())
 	}
 	if err := crusp.TeamScore.ExtractFrom(readable); err != nil {
@@ -84,7 +84,7 @@ func (crusp CompetitionRankingUploadScoreParam) Copy() types.RVType {
 	copied.SplatfestId = crusp.SplatfestId.Copy().(types.UInt32)
 	copied.Unknown2 = crusp.Unknown2.Copy().(types.UInt32)
 	copied.Score = crusp.Score.Copy().(types.UInt32)
-	copied.TeamId = crusp.TeamId.Copy().(types.UInt8)
+	copied.TeamID = crusp.TeamID.Copy().(types.UInt8)
 	copied.TeamScore = crusp.TeamScore.Copy().(types.UInt32)
 	copied.IsFirstUpload = crusp.IsFirstUpload.Copy().(types.Bool)
 	copied.AppData = crusp.AppData.Copy().(types.QBuffer)
@@ -116,7 +116,7 @@ func (crusp CompetitionRankingUploadScoreParam) Equals(o types.RVType) bool {
 	if !crusp.Score.Equals(other.Score) {
 		return false
 	}
-	if !crusp.TeamId.Equals(other.TeamId) {
+	if !crusp.TeamID.Equals(other.TeamID) {
 		return false
 	}
 	if !crusp.TeamScore.Equals(other.TeamScore) {
@@ -160,7 +160,7 @@ func (crusp CompetitionRankingUploadScoreParam) FormatToString(indentationLevel 
 	fmt.Fprintf(&b, "%sSplatfestId: %s,\n", indentationValues, crusp.SplatfestId)
 	fmt.Fprintf(&b, "%sUnknown2: %s,\n", indentationValues, crusp.Unknown2)
 	fmt.Fprintf(&b, "%sScore: %s,\n", indentationValues, crusp.Score)
-	fmt.Fprintf(&b, "%sTeamId: %s,\n", indentationValues, crusp.TeamId)
+	fmt.Fprintf(&b, "%sTeamId: %s,\n", indentationValues, crusp.TeamID)
 	fmt.Fprintf(&b, "%TeamScore: %s,\n", indentationValues, crusp.TeamScore)
 	fmt.Fprintf(&b, "%sIsFirstUpload: %s,\n", indentationValues, crusp.IsFirstUpload)
 	fmt.Fprintf(&b, "%sAppData: %s,\n", indentationValues, crusp.AppData)
@@ -176,7 +176,7 @@ func NewCompetitionRankingUploadScoreParam() CompetitionRankingUploadScoreParam 
 		SplatfestId:   types.NewUInt32(0),
 		Unknown2:      types.NewUInt32(0),
 		Score:         types.NewUInt32(0),
-		TeamId:        types.NewUInt8(0),
+		TeamID:        types.NewUInt8(0),
 		TeamScore:     types.NewUInt32(0),
 		IsFirstUpload: types.NewBool(false),
 		AppData:       types.NewQBuffer([]byte{}),

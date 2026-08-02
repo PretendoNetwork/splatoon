@@ -14,7 +14,7 @@ func GetSingleCompetitionRankingScore(splatfestID uint32) (ranking_splatoon_type
 	var err error
 	info := ranking_splatoon_types.NewCompetitionRankingScoreInfo()
 
-	info.FestId = types.UInt32(splatfestID)
+	info.FestID = types.UInt32(splatfestID)
 
 	team_wins, team_votes, err := database.GetVoteAndWinCount(splatfestID)
 
