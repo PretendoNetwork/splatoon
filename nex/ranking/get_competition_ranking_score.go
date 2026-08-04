@@ -16,14 +16,14 @@ func GetSingleCompetitionRankingScore(splatfestID uint32) (ranking_splatoon_type
 
 	info.FestID = types.UInt32(splatfestID)
 
-	team_wins, team_votes, err := database.GetVoteAndWinCount(splatfestID)
+	teamWins, teamVotes, err := database.GetVoteAndWinCount(splatfestID)
 
 	if err != nil {
 		return info, err
 	}
 
-	info.TeamWins = types.List[types.UInt32](team_wins)
-	info.TeamVotes = types.List[types.UInt32](team_votes)
+	info.TeamWins = types.List[types.UInt32](teamWins)
+	info.TeamVotes = types.List[types.UInt32](teamVotes)
 
 	var scoreDataEntries []ranking_splatoon_types.CompetitionRankingScoreData
 	scoreDataEntries, err = database.GetScoreDataEntries(splatfestID)
@@ -52,11 +52,11 @@ func GetCompetitionRankingScore(err error, packet nex.PacketInterface, callID ui
 
 	retVal := types.NewList[ranking_splatoon_types.CompetitionRankingScoreInfo]()
 
-	if uint32(params.ResultRange.Offset) >= uint32(len(params.FestivalIds)) {
+	if uint32(params.ResultRange.Offset) >= uint32(len(params.FestivalIDs)) {
 		return nil, nex.NewError(nex.ResultCodes.Core.InvalidArgument, "out of resultrange is out of bounds")
 	}
 
-	festId := params.FestivalIds[uint32(params.ResultRange.Offset)]
+	festId := params.FestivalIDs[uint32(params.ResultRange.Offset)]
 	info, err := GetSingleCompetitionRankingScore(uint32(festId))
 	if err != nil {
 		return nil, nex.NewError(nex.ResultCodes.Core.Exception, "error retrieving ranking scores")

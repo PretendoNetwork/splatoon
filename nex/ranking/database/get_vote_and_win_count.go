@@ -31,16 +31,16 @@ func GetVoteAndWinCount(splatfestID uint32) (types.List[types.UInt32], types.Lis
 	if row.Err() != nil {
 		return types.NewList[types.UInt32](), types.NewList[types.UInt32](), row.Err()
 	}
-	var alpha_team_votes uint32
-	var bravo_team_votes uint32
-	var alpha_team_wins uint32
-	var bravo_team_wins uint32
+	var alphaTeamVotes uint32
+	var bravoTeamVotes uint32
+	var alphaTeamWins uint32
+	var bravoTeamWins uint32
 
-	err := row.Scan(&alpha_team_votes, &bravo_team_votes, &alpha_team_wins, &bravo_team_wins)
+	err := row.Scan(&alphaTeamVotes, &bravoTeamVotes, &alphaTeamWins, &bravoTeamWins)
 	if err != nil {
 		return types.NewList[types.UInt32](), types.NewList[types.UInt32](), err
 	}
 
-	return types.List[types.UInt32]{types.NewUInt32(alpha_team_votes), types.NewUInt32(bravo_team_votes)},
-		types.List[types.UInt32]{types.NewUInt32(alpha_team_wins), types.NewUInt32(bravo_team_wins)}, nil
+	return types.List[types.UInt32]{types.NewUInt32(alphaTeamVotes), types.NewUInt32(bravoTeamVotes)},
+		types.List[types.UInt32]{types.NewUInt32(alphaTeamWins), types.NewUInt32(bravoTeamWins)}, nil
 }
