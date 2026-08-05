@@ -56,7 +56,7 @@ func GetCompetitionRankingScore(err error, packet nex.PacketInterface, callID ui
 		return nil, nex.NewError(nex.ResultCodes.Core.InvalidArgument, "out of resultrange is out of bounds")
 	}
 
-	festID := params.FestivalIDs[uint32(params.ResultRange.Offset)]
+	festID := params.ResultRange.Offset
 	info, err := GetSingleCompetitionRankingScore(uint32(festID))
 	if err != nil {
 		return nil, nex.NewError(nex.ResultCodes.Core.Exception, "error retrieving ranking scores")
