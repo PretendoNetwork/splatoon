@@ -28,7 +28,9 @@ func UploadCompetitionRankingScore(err error, packet nex.PacketInterface, callID
 	database.StoreUserMatchResult(packet.Sender().PID(), params)
 	database.StoreUserScore(packet.Sender().PID(), params)
 
-	types.NewBool(true).WriteTo(rmcResponseStream)
+	success := types.NewBool(true)
+
+	success.WriteTo(rmcResponseStream)
 
 	rmcResponse := nex.NewRMCSuccess(globals.SecureEndpoint, rmcResponseStream.Bytes())
 	rmcResponse.ProtocolID = ranking.ProtocolID

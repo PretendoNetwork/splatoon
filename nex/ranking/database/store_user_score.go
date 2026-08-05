@@ -24,7 +24,7 @@ func StoreUserScore(userPID types.PID, data ranking_splatoon_types.CompetitionRa
 			last_updated = EXCLUDED.last_updated
 			team_id = EXCLUDED.team_id
 			app_data = EXCLUDED.app_data
-	`, int64(userPID), int64(data.SplatfestId), int64(data.Score), int16(data.TeamID), int64(time), ([]byte)(data.AppData))
+	`, int64(userPID), int64(data.SplatfestID), int64(data.Score), int16(data.TeamID), int64(time), ([]byte)(data.AppData))
 
 	if err != nil {
 		return err

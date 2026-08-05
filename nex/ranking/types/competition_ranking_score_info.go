@@ -42,7 +42,7 @@ func (crsi CompetitionRankingScoreInfo) ExtractFrom(readable types.Readable) err
 	}
 
 	if err := crsi.FestID.ExtractFrom(readable); err != nil {
-		return fmt.Errorf("failed to extract CompetitionRankingScoreInfo.FestId. %s", err.Error())
+		return fmt.Errorf("failed to extract CompetitionRankingScoreInfo.FestID. %s", err.Error())
 	}
 
 	if err := crsi.ScoreData.ExtractFrom(readable); err != nil {
@@ -140,7 +140,7 @@ func (crsi CompetitionRankingScoreInfo) FormatToString(indentationLevel int) str
 	var b strings.Builder
 
 	b.WriteString("CompetitionRankingScoreInfo{\n")
-	fmt.Fprintf(&b, "%sFestId: %s,\n", indentationValues, crsi.FestID)
+	fmt.Fprintf(&b, "%sFestID: %s,\n", indentationValues, crsi.FestID)
 	fmt.Fprintf(&b, "%sScoreData: %s,\n", indentationValues, crsi.ScoreData)
 	fmt.Fprintf(&b, "%sUnknown: %s,\n", indentationValues, crsi.Unknown)
 	fmt.Fprintf(&b, "%sTeamWins: %s,\n", indentationValues, crsi.TeamWins)

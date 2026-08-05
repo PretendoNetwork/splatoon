@@ -13,7 +13,7 @@ type CompetitionRankingGetParam struct {
 	types.Structure
 	Unknown     types.UInt32
 	ResultRange types.ResultRange
-	FestivalIds types.List[types.UInt32]
+	FestivalIDs types.List[types.UInt32]
 }
 
 // WriteTo writes the CompetitionRankingGetParam to the given writable
@@ -22,7 +22,7 @@ func (crgp CompetitionRankingGetParam) WriteTo(writable types.Writable) {
 
 	crgp.Unknown.WriteTo(contentWritable)
 	crgp.ResultRange.WriteTo(contentWritable)
-	crgp.FestivalIds.WriteTo(contentWritable)
+	crgp.FestivalIDs.WriteTo(contentWritable)
 
 	content := contentWritable.Bytes()
 
@@ -45,8 +45,8 @@ func (crgp CompetitionRankingGetParam) ExtractFrom(readable types.Readable) erro
 		return fmt.Errorf("failed to extract CompetitionRankingGetParam.ResultRange. %s", err.Error())
 	}
 
-	if err := crgp.FestivalIds.ExtractFrom(readable); err != nil {
-		return fmt.Errorf("failed to extract CompetitionRankingGetParam.FestivalIds. %s", err.Error())
+	if err := crgp.FestivalIDs.ExtractFrom(readable); err != nil {
+		return fmt.Errorf("failed to extract CompetitionRankingGetParam.FestivalIDs. %s", err.Error())
 	}
 
 	return nil
@@ -59,7 +59,7 @@ func (crgp CompetitionRankingGetParam) Copy() types.RVType {
 	copied.StructureVersion = crgp.StructureVersion
 	copied.Unknown = crgp.Unknown.Copy().(types.UInt32)
 	copied.ResultRange = crgp.Copy().(types.ResultRange)
-	copied.FestivalIds = crgp.FestivalIds.Copy().(types.List[types.UInt32])
+	copied.FestivalIDs = crgp.FestivalIDs.Copy().(types.List[types.UInt32])
 
 	return copied
 }
@@ -84,7 +84,7 @@ func (crgp CompetitionRankingGetParam) Equals(o types.RVType) bool {
 		return false
 	}
 
-	return crgp.FestivalIds.Equals(other.FestivalIds)
+	return crgp.FestivalIDs.Equals(other.FestivalIDs)
 }
 
 // CopyRef copies the current value of the CompetitionRankingGetParam
@@ -116,7 +116,7 @@ func (crgp CompetitionRankingGetParam) FormatToString(indentationLevel int) stri
 	b.WriteString("CompetitionRankingGetParam{\n")
 	fmt.Fprintf(&b, "%sUnknown: %s,\n", indentationValues, crgp.Unknown)
 	fmt.Fprintf(&b, "%sResultRange: %s,\n", indentationValues, crgp.ResultRange)
-	fmt.Fprintf(&b, "%sFestivalIds: %s,\n", indentationValues, crgp.FestivalIds)
+	fmt.Fprintf(&b, "%sFestivalIDs: %s,\n", indentationValues, crgp.FestivalIDs)
 	fmt.Fprintf(&b, "%s}", indentationEnd)
 
 	return b.String()
@@ -128,7 +128,7 @@ func NewCompetitionRankingGetParam() CompetitionRankingGetParam {
 		Structure:   types.Structure{StructureVersion: 1},
 		Unknown:     types.NewUInt32(0),
 		ResultRange: types.NewResultRange(),
-		FestivalIds: types.NewList[types.UInt32](),
+		FestivalIDs: types.NewList[types.UInt32](),
 	}
 
 }
