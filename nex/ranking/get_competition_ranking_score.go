@@ -52,10 +52,6 @@ func GetCompetitionRankingScore(err error, packet nex.PacketInterface, callID ui
 
 	retVal := types.NewList[ranking_splatoon_types.CompetitionRankingScoreInfo]()
 
-	if uint32(params.ResultRange.Offset) >= uint32(len(params.FestivalIDs)) {
-		return nil, nex.NewError(nex.ResultCodes.Core.InvalidArgument, "out of resultrange is out of bounds")
-	}
-
 	festID := params.ResultRange.Offset
 	info, err := GetSingleCompetitionRankingScore(uint32(festID))
 	if err != nil {
