@@ -1,8 +1,6 @@
 package nex
 
 import (
-	"slices"
-
 	"github.com/PretendoNetwork/nex-go/v2"
 	"github.com/PretendoNetwork/nex-go/v2/types"
 	commonmatchmaking "github.com/PretendoNetwork/nex-protocols-common-go/v2/match-making"
@@ -35,7 +33,9 @@ func cleanupMatchmakeSessionSearchCriteriasHandler(searchCriterias types.List[ma
 
 func adjustPublicStationFirst(packet nex.PacketInterface, urls types.List[types.StationURL], dataHolder types.DataHolder) {
 	connection := packet.Sender().(*nex.PRUDPConnection)
-	slices.Reverse(connection.StationURLs)
+	connection.StationURLs = []types.StationURL{
+		connection.StationURLs[1],
+	}
 }
 
 func registerCommonSecureServerProtocols() {
