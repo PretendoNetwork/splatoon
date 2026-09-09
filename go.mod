@@ -39,3 +39,5 @@ require (
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20260715232425-e75dac1f907d // indirect
 	google.golang.org/protobuf v1.36.11 // indirect
 )
+
+replace github.com/PretendoNetwork/nex-protocols-common-go/v2 => github.com/RusticMaple/nex-protocols-common-go/v2 v2.0.0-20260826211924-52f0a7894b3b

@@ -2,14 +2,14 @@ github.com/PretendoNetwork/grpc/go v0.0.0-20260501210425-981c793afb28 h1:BHRf3HF
 github.com/PretendoNetwork/grpc/go v0.0.0-20260501210425-981c793afb28/go.mod h1:L6We4KkcQeiQVPrF7iu8Zax0B1Bm0v4nssR1JOAiRFQ=
 github.com/PretendoNetwork/nex-go/v2 v2.3.1 h1:VGUJddSg/U/qbW52238a2utxVzwhYD/YO5ty8zV0fEE=
 github.com/PretendoNetwork/nex-go/v2 v2.3.1/go.mod h1:2xKxiTtNxGliQ80xeicc6w3D53hmunOndoB3XJxUn/8=
-github.com/PretendoNetwork/nex-protocols-common-go/v2 v2.6.1-0.20260724120645-40be78dacd94 h1:hJjdpoWLGIlYN1YixuGdEt07YxTPMqPZDouhl0sNv9s=
-github.com/PretendoNetwork/nex-protocols-common-go/v2 v2.6.1-0.20260724120645-40be78dacd94/go.mod h1:/u11FCCO0HQwENEvep/UwZJqXng3A/N0WONN45fDwEo=
 github.com/PretendoNetwork/nex-protocols-go/v2 v2.3.6-0.20260718144111-55050c33ce7a h1:G6NTqSteBT7P9Wusu6lSwXS9Hkyb+L+Iwb70FE4b3hw=
 github.com/PretendoNetwork/nex-protocols-go/v2 v2.3.6-0.20260718144111-55050c33ce7a/go.mod h1:4+quxpxWcm1bV5LMAEjOKknuFii/CSqxLg3hAewJ0DI=
 github.com/PretendoNetwork/plogger-go v1.1.0 h1:x2XgyeeM8zDFGy+NcIZd3SYC2fNrVWpBBbkqTejOfiM=
 github.com/PretendoNetwork/plogger-go v1.1.0/go.mod h1:wpltahp91IXr9nOvWgwep8zGtUKDeCVwm+/Wa484lQ4=
 github.com/PretendoNetwork/pq-extended v1.0.0 h1:GHZ0hLvCvmYKQPTV9I9XtTx8J1iB5Z9CEnfW2tUpsYg=
 github.com/PretendoNetwork/pq-extended v1.0.0/go.mod h1:bq6Ai+3lG4/M0iamUBt2Uzi5vL/nYy1a1Ar2ow9NDF0=
+github.com/RusticMaple/nex-protocols-common-go/v2 v2.0.0-20260826211924-52f0a7894b3b h1:wyC3WzB/f756EleIZ/+YUStCZ49JvA3ZnnytfJUw0aY=
+github.com/RusticMaple/nex-protocols-common-go/v2 v2.0.0-20260826211924-52f0a7894b3b/go.mod h1:/u11FCCO0HQwENEvep/UwZJqXng3A/N0WONN45fDwEo=
 github.com/beorn7/perks v1.0.1 h1:VlbKKnNfV8bJzeqoa4cOKqO6bYr3WgKZxO8Z16+hsOM=
 github.com/beorn7/perks v1.0.1/go.mod h1:G2ZrVWU2WbWT9wwq4/hrbKbnv/1ERSJQ0ibhJ6rlkpw=
 github.com/cespare/xxhash/v2 v2.3.0 h1:UL815xU9SqsFlibzuggzjXhog7bL6oX9BbNZnL2UFvs=
