@@ -31,7 +31,7 @@ func cleanupMatchmakeSessionSearchCriteriasHandler(searchCriterias types.List[ma
 	}
 }
 
-func adjustPublicStationFirst(packet nex.PacketInterface, urls types.List[types.StationURL], dataHolder types.DataHolder) {
+func adjustPublicStationFirst(packet nex.PacketInterface, urls types.List[types.StationURL]) {
 	connection := packet.Sender().(*nex.PRUDPConnection)
 	connection.StationURLs = []types.StationURL{
 		connection.StationURLs[1],
@@ -45,7 +45,7 @@ func registerCommonSecureServerProtocols() {
 	globals.SecureEndpoint.RegisterServiceProtocol(secureProtocol)
 	commonSecureProtocol := commonsecure.NewCommonProtocol(secureProtocol)
 	commonSecureProtocol.EnableInsecureRegister()
-	commonSecureProtocol.OnAfterRegisterEx = adjustPublicStationFirst
+	commonSecureProtocol.OnAfterRegister = adjustPublicStationFirst
 	commonSecureProtocol.CreateReportDBRecord = CreateReportDBRecord
 
 	natTraversalProtocol := nattraversal.NewProtocol()
