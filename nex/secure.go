@@ -2,9 +2,10 @@ package nex
 
 import (
 	"fmt"
-	common_globals "github.com/PretendoNetwork/nex-protocols-common-go/v2/globals"
 	"os"
 	"strconv"
+
+	common_globals "github.com/PretendoNetwork/nex-protocols-common-go/v2/globals"
 
 	"github.com/PretendoNetwork/nex-go/v2"
 	"github.com/PretendoNetwork/splatoon/globals"
@@ -19,6 +20,8 @@ func StartSecureServer() {
 	globals.SecureEndpoint.ServerAccount = globals.SecureServerAccount
 	globals.SecureEndpoint.AccountDetailsByPID = globals.AccountDetailsByPID
 	globals.SecureEndpoint.AccountDetailsByUsername = globals.AccountDetailsByUsername
+	globals.SecureEndpoint.DefaultStreamSettings.RetransmitTimeoutMultiplier = 10
+	globals.SecureEndpoint.DefaultStreamSettings.ExtraRetransmitTimeoutMultiplier = 5
 	globals.SecureServer.BindPRUDPEndPoint(globals.SecureEndpoint)
 
 	globals.SecureServer.LibraryVersions.SetDefault(nex.NewLibraryVersion(3, 8, 15))
