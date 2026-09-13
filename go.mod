@@ -40,4 +40,5 @@ require (
 	google.golang.org/protobuf v1.36.11 // indirect
 )
 
-replace github.com/PretendoNetwork/nex-protocols-common-go/v2 => github.com/RusticMaple/nex-protocols-common-go/v2 v2.0.0-20260913115919-c87de8a828ab
+// BRUH
+// replace github.com/PretendoNetwork/nex-protocols-common-go/v2 => github.com/RusticMaple/nex-protocols-common-go/v2 v2.0.0-20260913115919-c87de8a828ab
